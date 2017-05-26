@@ -17,6 +17,7 @@
     int yearOffset;
     int monthOffset;
     int centuaryOffset;
+    NSString *dayString;
 }
 
 @end
@@ -37,12 +38,14 @@
     [dateFormatter setDateFormat:@"MM"];
      month = [[dateFormatter stringFromDate:[NSDate date]] intValue];
     NSLog(@"%d",month);
+    [dateFormatter setDateFormat:@"dd"];
+    int day = [[dateFormatter stringFromDate:[NSDate date]] intValue];
     
     [self monthCalculation:month];
-
     daysOfMonth=[[NSMutableArray alloc]init];
     [self daysOfMonthCall];
     [self calculateday];
+    self.labelDate.text=[NSString stringWithFormat:@"%@ %d %@",self.labelMonth.text,day,self.labelYear.text];
 //    for(int inityear=1970;inityear<=2100;inityear++){
 //        NSString *stringyear=[NSString stringWithFormat:@"%d",inityear];
 //        [arrayYears addObject:stringyear];
@@ -56,81 +59,93 @@
     int day;
     if(month==1){
         for(day=1;day<=31;day++){
-            NSString *dayString=[NSString stringWithFormat:@"%d",day];
+            [daysOfMonth removeAllObjects];
+            dayString=[NSString stringWithFormat:@"%d",day];
         [daysOfMonth addObject:dayString];
         }
     }
         else if(month==2){
+                        [daysOfMonth removeAllObjects];
             if((self.labelYear.text.intValue % 4) ==0){
             for(day=1;day<=29;day++){
-                NSString *dayString=[NSString stringWithFormat:@"%d",day];
+                dayString=[NSString stringWithFormat:@"%d",day];
                 [daysOfMonth addObject:dayString];
         }
             }else{
                 for(day=1;day<=28;day++){
-                    NSString *dayString=[NSString stringWithFormat:@"%d",day];
+                    dayString=[NSString stringWithFormat:@"%d",day];
                     [daysOfMonth addObject:dayString];
                 }
             }
     }
     
         else if(month==3){
+                        [daysOfMonth removeAllObjects];
             for(day=1;day<=31;day++){
-                NSString *dayString=[NSString stringWithFormat:@"%d",day];
+                dayString=[NSString stringWithFormat:@"%d",day];
                 [daysOfMonth addObject:dayString];
             }
         }
         else if(month==4){
+                        [daysOfMonth removeAllObjects];
             for(day=1;day<=30;day++){
-                NSString *dayString=[NSString stringWithFormat:@"%d",day];
+                dayString=[NSString stringWithFormat:@"%d",day];
                 [daysOfMonth addObject:dayString];
             }
         }
         else if(month==5){
+                        [daysOfMonth removeAllObjects];
             for(day=1;day<=31;day++){
-                NSString *dayString=[NSString stringWithFormat:@"%d",day];
+                dayString=[NSString stringWithFormat:@"%d",day];
                 [daysOfMonth addObject:dayString];
             }
         }
         else if(month==6){
+                        [daysOfMonth removeAllObjects];
             for(day=1;day<=30;day++){
-                NSString *dayString=[NSString stringWithFormat:@"%d",day];
+                dayString=[NSString stringWithFormat:@"%d",day];
                 [daysOfMonth addObject:dayString];
             }
         }
         else if(month==7){
+                        [daysOfMonth removeAllObjects];
             for(day=1;day<=31;day++){
-                NSString *dayString=[NSString stringWithFormat:@"%d",day];
+                dayString=[NSString stringWithFormat:@"%d",day];
                 [daysOfMonth addObject:dayString];
             }
         }
         else if(month==8){
+                        [daysOfMonth removeAllObjects];
             for(day=1;day<=31;day++){
-                NSString *dayString=[NSString stringWithFormat:@"%d",day];
+                dayString=[NSString stringWithFormat:@"%d",day];
                 [daysOfMonth addObject:dayString];
             }
         }
         else if(month==9){
+                        [daysOfMonth removeAllObjects];
             for(day=1;day<=30;day++){
-                NSString *dayString=[NSString stringWithFormat:@"%d",day];
+                dayString=[NSString stringWithFormat:@"%d",day];
                 [daysOfMonth addObject:dayString];
             }
         }
         else if(month==10){
+                        [daysOfMonth removeAllObjects];
             for(day=1;day<=31;day++){
-                NSString *dayString=[NSString stringWithFormat:@"%d",day];
+                dayString=[NSString stringWithFormat:@"%d",day];
                 [daysOfMonth addObject:dayString];
             }
         }
         else if(month==11){
+                        [daysOfMonth removeAllObjects];
             for(day=1;day<=30;day++){
-                NSString *dayString=[NSString stringWithFormat:@"%d",day];
+                dayString=[NSString stringWithFormat:@"%d",day];
                 [daysOfMonth addObject:dayString];
             }
         }
         else if(month==12){
+                        [daysOfMonth removeAllObjects];
             for(day=1;day<=31;day++){
-                NSString *dayString=[NSString stringWithFormat:@"%d",day];
+                dayString=[NSString stringWithFormat:@"%d",day];
                 [daysOfMonth addObject:dayString];
             }
         }
@@ -224,11 +239,13 @@
         }
     }
     [self daysOfMonthCall];
+    [self calculateday];
     
 }
 
 
 -(void)calculateday{
+   
     dayOffset= 1;
     NSString *string=[NSString stringWithFormat:@"%@",self.labelYear.text];
     string=[string substringToIndex:2];
@@ -248,14 +265,16 @@
     }else  if([string isEqualToString:@"22"]){
         centuaryOffset=2;
     }
-    NSString *string2=[string substringFromIndex:string.length-2];
+    
+    NSString *string2=[NSString stringWithFormat:@"%@",self.labelYear.text];
+    string2=[string2 substringFromIndex:string2.length-2];
     yearOffset=(string2.intValue+(string2.intValue/4))%7;
     if(month==1){
         monthOffset=0;
     }else if(month==2){
-        monthOffset=2;
+        monthOffset=3;
     }else if(month==3){
-        monthOffset=2;
+        monthOffset=3;
     }else if(month==4){
         monthOffset=6;
     }else if(month==5){
@@ -277,8 +296,1082 @@
     }
     
     int dayOfmonthCalculation=dayOffset+monthOffset+yearOffset+centuaryOffset;
-    ////////////////////
-    ///find day if sun =0 rem if sat 7 rem
-    ////////////////
+    int calculatedDay=dayOfmonthCalculation % 7;
+    if(calculatedDay==0){
+        dayString=@"sun";
+    }else if(calculatedDay==1){
+        dayString=@"mon";
+    }else if(calculatedDay==2){
+        dayString=@"tue";
+    }else if(calculatedDay==3){
+        dayString=@"wed";
+    }else if(calculatedDay==4){
+        dayString=@"thu";
+    }else if(calculatedDay==5){
+        dayString=@"fri";
+    }else if(calculatedDay==6){
+        dayString=@"sat";
     }
+    NSLog(@"%@",dayString);
+    [self displayCalendar:dayString];
+    }
+
+-(void)displayCalendar:(NSString *)day {
+//    int i = 0;
+    if([day isEqualToString:@"sun"]){
+        if(month==1 || month ==3 ||month==5 || month==7 || month==8 || month== 10|| month==12){
+        [self.but1 setTitle:@"1" forState:UIControlStateNormal];
+        [self.but2 setTitle:@"2" forState:UIControlStateNormal];
+        [self.but3 setTitle:@"3" forState:UIControlStateNormal];
+        [self.but4 setTitle:@"4" forState:UIControlStateNormal];
+        [self.but5 setTitle:@"5" forState:UIControlStateNormal];
+        [self.but6 setTitle:@"6" forState:UIControlStateNormal];
+        [self.but7 setTitle:@"7" forState:UIControlStateNormal];
+        [self.but8 setTitle:@"8" forState:UIControlStateNormal];
+        [self.but9 setTitle:@"9" forState:UIControlStateNormal];
+        [self.but10 setTitle:@"10" forState:UIControlStateNormal];
+        [self.but11 setTitle:@"11" forState:UIControlStateNormal];
+        [self.but12 setTitle:@"12" forState:UIControlStateNormal];
+        [self.but13 setTitle:@"13" forState:UIControlStateNormal];
+        [self.but14 setTitle:@"14" forState:UIControlStateNormal];
+        [self.but15 setTitle:@"15" forState:UIControlStateNormal];
+        [self.but16 setTitle:@"16" forState:UIControlStateNormal];
+        [self.but17 setTitle:@"17" forState:UIControlStateNormal];
+        [self.but18 setTitle:@"18" forState:UIControlStateNormal];
+        [self.but19 setTitle:@"19" forState:UIControlStateNormal];
+        [self.but20 setTitle:@"20" forState:UIControlStateNormal];
+        [self.but21 setTitle:@"21" forState:UIControlStateNormal];
+        [self.but22 setTitle:@"22" forState:UIControlStateNormal];
+        [self.but23 setTitle:@"23" forState:UIControlStateNormal];
+        [self.but24 setTitle:@"24" forState:UIControlStateNormal];
+        [self.but25 setTitle:@"25" forState:UIControlStateNormal];
+        [self.but26 setTitle:@"26" forState:UIControlStateNormal];
+        [self.but27 setTitle:@"27" forState:UIControlStateNormal];
+        [self.but28 setTitle:@"28" forState:UIControlStateNormal];
+        [self.but29 setTitle:@"29" forState:UIControlStateNormal];
+        [self.but30 setTitle:@"30" forState:UIControlStateNormal];
+        [self.but31 setTitle:@"31" forState:UIControlStateNormal];
+        [self.but32 setTitle:@"" forState:UIControlStateNormal];
+        [self.but33 setTitle:@""forState:UIControlStateNormal];
+        [self.but34 setTitle:@"" forState:UIControlStateNormal];
+        [self.but35 setTitle:@"" forState:UIControlStateNormal];
+        }else if (month==4 ||month== 6 || month== 9 || month==11){
+            [self.but1 setTitle:@"1" forState:UIControlStateNormal];
+            [self.but2 setTitle:@"2" forState:UIControlStateNormal];
+            [self.but3 setTitle:@"3" forState:UIControlStateNormal];
+            [self.but4 setTitle:@"4" forState:UIControlStateNormal];
+            [self.but5 setTitle:@"5" forState:UIControlStateNormal];
+            [self.but6 setTitle:@"6" forState:UIControlStateNormal];
+            [self.but7 setTitle:@"7" forState:UIControlStateNormal];
+            [self.but8 setTitle:@"8" forState:UIControlStateNormal];
+            [self.but9 setTitle:@"9" forState:UIControlStateNormal];
+            [self.but10 setTitle:@"10" forState:UIControlStateNormal];
+            [self.but11 setTitle:@"11" forState:UIControlStateNormal];
+            [self.but12 setTitle:@"12" forState:UIControlStateNormal];
+            [self.but13 setTitle:@"13" forState:UIControlStateNormal];
+            [self.but14 setTitle:@"14" forState:UIControlStateNormal];
+            [self.but15 setTitle:@"15" forState:UIControlStateNormal];
+            [self.but16 setTitle:@"16" forState:UIControlStateNormal];
+            [self.but17 setTitle:@"17" forState:UIControlStateNormal];
+            [self.but18 setTitle:@"18" forState:UIControlStateNormal];
+            [self.but19 setTitle:@"19" forState:UIControlStateNormal];
+            [self.but20 setTitle:@"20" forState:UIControlStateNormal];
+            [self.but21 setTitle:@"21" forState:UIControlStateNormal];
+            [self.but22 setTitle:@"22" forState:UIControlStateNormal];
+            [self.but23 setTitle:@"23" forState:UIControlStateNormal];
+            [self.but24 setTitle:@"24" forState:UIControlStateNormal];
+            [self.but25 setTitle:@"25" forState:UIControlStateNormal];
+            [self.but26 setTitle:@"26" forState:UIControlStateNormal];
+            [self.but27 setTitle:@"27" forState:UIControlStateNormal];
+            [self.but28 setTitle:@"28" forState:UIControlStateNormal];
+            [self.but29 setTitle:@"29" forState:UIControlStateNormal];
+            [self.but30 setTitle:@"30" forState:UIControlStateNormal];
+            [self.but31 setTitle:@"" forState:UIControlStateNormal];
+            [self.but32 setTitle:@"" forState:UIControlStateNormal];
+            [self.but33 setTitle:@""forState:UIControlStateNormal];
+            [self.but34 setTitle:@"" forState:UIControlStateNormal];
+            [self.but35 setTitle:@"" forState:UIControlStateNormal];
+      
+        
+        }else if(month== 2){
+            if(daysOfMonth.count==28){
+                
+            [self.but1 setTitle:@"1" forState:UIControlStateNormal];
+            [self.but2 setTitle:@"2" forState:UIControlStateNormal];
+            [self.but3 setTitle:@"3" forState:UIControlStateNormal];
+            [self.but4 setTitle:@"4" forState:UIControlStateNormal];
+            [self.but5 setTitle:@"5" forState:UIControlStateNormal];
+            [self.but6 setTitle:@"6" forState:UIControlStateNormal];
+            [self.but7 setTitle:@"7" forState:UIControlStateNormal];
+            [self.but8 setTitle:@"8" forState:UIControlStateNormal];
+            [self.but9 setTitle:@"9" forState:UIControlStateNormal];
+            [self.but10 setTitle:@"10" forState:UIControlStateNormal];
+            [self.but11 setTitle:@"11" forState:UIControlStateNormal];
+            [self.but12 setTitle:@"12" forState:UIControlStateNormal];
+            [self.but13 setTitle:@"13" forState:UIControlStateNormal];
+            [self.but14 setTitle:@"14" forState:UIControlStateNormal];
+            [self.but15 setTitle:@"15" forState:UIControlStateNormal];
+            [self.but16 setTitle:@"16" forState:UIControlStateNormal];
+            [self.but17 setTitle:@"17" forState:UIControlStateNormal];
+            [self.but18 setTitle:@"18" forState:UIControlStateNormal];
+            [self.but19 setTitle:@"19" forState:UIControlStateNormal];
+            [self.but20 setTitle:@"20" forState:UIControlStateNormal];
+            [self.but21 setTitle:@"21" forState:UIControlStateNormal];
+            [self.but22 setTitle:@"22" forState:UIControlStateNormal];
+            [self.but23 setTitle:@"23" forState:UIControlStateNormal];
+            [self.but24 setTitle:@"24" forState:UIControlStateNormal];
+            [self.but25 setTitle:@"25" forState:UIControlStateNormal];
+            [self.but26 setTitle:@"26" forState:UIControlStateNormal];
+            [self.but27 setTitle:@"27" forState:UIControlStateNormal];
+            [self.but28 setTitle:@"28" forState:UIControlStateNormal];
+            [self.but29 setTitle:@"" forState:UIControlStateNormal];
+            [self.but30 setTitle:@"" forState:UIControlStateNormal];
+            [self.but31 setTitle:@"" forState:UIControlStateNormal];
+            [self.but32 setTitle:@"" forState:UIControlStateNormal];
+            [self.but33 setTitle:@""forState:UIControlStateNormal];
+            [self.but34 setTitle:@"" forState:UIControlStateNormal];
+            [self.but35 setTitle:@"" forState:UIControlStateNormal];
+            }
+            else{
+                [self.but1 setTitle:@"1" forState:UIControlStateNormal];
+                [self.but2 setTitle:@"2" forState:UIControlStateNormal];
+                [self.but3 setTitle:@"3" forState:UIControlStateNormal];
+                [self.but4 setTitle:@"4" forState:UIControlStateNormal];
+                [self.but5 setTitle:@"5" forState:UIControlStateNormal];
+                [self.but6 setTitle:@"6" forState:UIControlStateNormal];
+                [self.but7 setTitle:@"7" forState:UIControlStateNormal];
+                [self.but8 setTitle:@"8" forState:UIControlStateNormal];
+                [self.but9 setTitle:@"9" forState:UIControlStateNormal];
+                [self.but10 setTitle:@"10" forState:UIControlStateNormal];
+                [self.but11 setTitle:@"11" forState:UIControlStateNormal];
+                [self.but12 setTitle:@"12" forState:UIControlStateNormal];
+                [self.but13 setTitle:@"13" forState:UIControlStateNormal];
+                [self.but14 setTitle:@"14" forState:UIControlStateNormal];
+                [self.but15 setTitle:@"15" forState:UIControlStateNormal];
+                [self.but16 setTitle:@"16" forState:UIControlStateNormal];
+                [self.but17 setTitle:@"17" forState:UIControlStateNormal];
+                [self.but18 setTitle:@"18" forState:UIControlStateNormal];
+                [self.but19 setTitle:@"19" forState:UIControlStateNormal];
+                [self.but20 setTitle:@"20" forState:UIControlStateNormal];
+                [self.but21 setTitle:@"21" forState:UIControlStateNormal];
+                [self.but22 setTitle:@"22" forState:UIControlStateNormal];
+                [self.but23 setTitle:@"23" forState:UIControlStateNormal];
+                [self.but24 setTitle:@"24" forState:UIControlStateNormal];
+                [self.but25 setTitle:@"25" forState:UIControlStateNormal];
+                [self.but26 setTitle:@"26" forState:UIControlStateNormal];
+                [self.but27 setTitle:@"27" forState:UIControlStateNormal];
+                [self.but28 setTitle:@"28" forState:UIControlStateNormal];
+                [self.but29 setTitle:@"29" forState:UIControlStateNormal];
+                [self.but30 setTitle:@"" forState:UIControlStateNormal];
+                [self.but31 setTitle:@"" forState:UIControlStateNormal];
+                [self.but32 setTitle:@"" forState:UIControlStateNormal];
+                [self.but33 setTitle:@""forState:UIControlStateNormal];
+                [self.but34 setTitle:@"" forState:UIControlStateNormal];
+                [self.but35 setTitle:@"" forState:UIControlStateNormal];
+            }
+        }
+    }else if ([day isEqualToString:@"mon"]){
+         if(month==1 || month ==3 ||month==5 || month==7 || month==8 || month== 10|| month==12){
+        [self.but1 setTitle:@"" forState:UIControlStateNormal];
+        [self.but2 setTitle:@"1" forState:UIControlStateNormal];
+        [self.but3 setTitle:@"2" forState:UIControlStateNormal];
+        [self.but4 setTitle:@"3" forState:UIControlStateNormal];
+        [self.but5 setTitle:@"4" forState:UIControlStateNormal];
+        [self.but6 setTitle:@"5" forState:UIControlStateNormal];
+        [self.but7 setTitle:@"6" forState:UIControlStateNormal];
+        [self.but8 setTitle:@"7" forState:UIControlStateNormal];
+        [self.but9 setTitle:@"8" forState:UIControlStateNormal];
+        [self.but10 setTitle:@"9" forState:UIControlStateNormal];
+        [self.but11 setTitle:@"10" forState:UIControlStateNormal];
+        [self.but12 setTitle:@"11" forState:UIControlStateNormal];
+        [self.but13 setTitle:@"12" forState:UIControlStateNormal];
+        [self.but14 setTitle:@"13" forState:UIControlStateNormal];
+        [self.but15 setTitle:@"14" forState:UIControlStateNormal];
+        [self.but16 setTitle:@"15" forState:UIControlStateNormal];
+        [self.but17 setTitle:@"16" forState:UIControlStateNormal];
+        [self.but18 setTitle:@"17" forState:UIControlStateNormal];
+        [self.but19 setTitle:@"18" forState:UIControlStateNormal];
+        [self.but20 setTitle:@"19" forState:UIControlStateNormal];
+        [self.but21 setTitle:@"20" forState:UIControlStateNormal];
+        [self.but22 setTitle:@"21" forState:UIControlStateNormal];
+        [self.but23 setTitle:@"22" forState:UIControlStateNormal];
+        [self.but24 setTitle:@"23" forState:UIControlStateNormal];
+        [self.but25 setTitle:@"24" forState:UIControlStateNormal];
+        [self.but26 setTitle:@"25" forState:UIControlStateNormal];
+        [self.but27 setTitle:@"26" forState:UIControlStateNormal];
+        [self.but28 setTitle:@"27" forState:UIControlStateNormal];
+        [self.but29 setTitle:@"28" forState:UIControlStateNormal];
+        [self.but30 setTitle:@"29" forState:UIControlStateNormal];
+        [self.but31 setTitle:@"30" forState:UIControlStateNormal];
+        [self.but32 setTitle:@"31" forState:UIControlStateNormal];
+        [self.but33 setTitle:@"" forState:UIControlStateNormal];
+        [self.but34 setTitle:@"" forState:UIControlStateNormal];
+        [self.but35 setTitle:@"" forState:UIControlStateNormal];
+         }
+         else if (month==4 ||month== 6 || month== 9 || month==11){
+             [self.but1 setTitle:@"" forState:UIControlStateNormal];
+             [self.but2 setTitle:@"1" forState:UIControlStateNormal];
+             [self.but3 setTitle:@"2" forState:UIControlStateNormal];
+             [self.but4 setTitle:@"3" forState:UIControlStateNormal];
+             [self.but5 setTitle:@"4" forState:UIControlStateNormal];
+             [self.but6 setTitle:@"5" forState:UIControlStateNormal];
+             [self.but7 setTitle:@"6" forState:UIControlStateNormal];
+             [self.but8 setTitle:@"7" forState:UIControlStateNormal];
+             [self.but9 setTitle:@"8" forState:UIControlStateNormal];
+             [self.but10 setTitle:@"9" forState:UIControlStateNormal];
+             [self.but11 setTitle:@"10" forState:UIControlStateNormal];
+             [self.but12 setTitle:@"11" forState:UIControlStateNormal];
+             [self.but13 setTitle:@"12" forState:UIControlStateNormal];
+             [self.but14 setTitle:@"13" forState:UIControlStateNormal];
+             [self.but15 setTitle:@"14" forState:UIControlStateNormal];
+             [self.but16 setTitle:@"15" forState:UIControlStateNormal];
+             [self.but17 setTitle:@"16" forState:UIControlStateNormal];
+             [self.but18 setTitle:@"17" forState:UIControlStateNormal];
+             [self.but19 setTitle:@"18" forState:UIControlStateNormal];
+             [self.but20 setTitle:@"19" forState:UIControlStateNormal];
+             [self.but21 setTitle:@"20" forState:UIControlStateNormal];
+             [self.but22 setTitle:@"21" forState:UIControlStateNormal];
+             [self.but23 setTitle:@"22" forState:UIControlStateNormal];
+             [self.but24 setTitle:@"23" forState:UIControlStateNormal];
+             [self.but25 setTitle:@"24" forState:UIControlStateNormal];
+             [self.but26 setTitle:@"25" forState:UIControlStateNormal];
+             [self.but27 setTitle:@"26" forState:UIControlStateNormal];
+             [self.but28 setTitle:@"27" forState:UIControlStateNormal];
+             [self.but29 setTitle:@"28" forState:UIControlStateNormal];
+             [self.but30 setTitle:@"29" forState:UIControlStateNormal];
+             [self.but31 setTitle:@"30" forState:UIControlStateNormal];
+             [self.but32 setTitle:@"" forState:UIControlStateNormal];
+             [self.but33 setTitle:@"" forState:UIControlStateNormal];
+             [self.but34 setTitle:@"" forState:UIControlStateNormal];
+             [self.but35 setTitle:@"" forState:UIControlStateNormal];
+         }else if(month== 2){
+             if(daysOfMonth.count==28){
+                 [self.but1 setTitle:@"" forState:UIControlStateNormal];
+                 [self.but2 setTitle:@"1" forState:UIControlStateNormal];
+                 [self.but3 setTitle:@"2" forState:UIControlStateNormal];
+                 [self.but4 setTitle:@"3" forState:UIControlStateNormal];
+                 [self.but5 setTitle:@"4" forState:UIControlStateNormal];
+                 [self.but6 setTitle:@"5" forState:UIControlStateNormal];
+                 [self.but7 setTitle:@"6" forState:UIControlStateNormal];
+                 [self.but8 setTitle:@"7" forState:UIControlStateNormal];
+                 [self.but9 setTitle:@"8" forState:UIControlStateNormal];
+                 [self.but10 setTitle:@"9" forState:UIControlStateNormal];
+                 [self.but11 setTitle:@"10" forState:UIControlStateNormal];
+                 [self.but12 setTitle:@"11" forState:UIControlStateNormal];
+                 [self.but13 setTitle:@"12" forState:UIControlStateNormal];
+                 [self.but14 setTitle:@"13" forState:UIControlStateNormal];
+                 [self.but15 setTitle:@"14" forState:UIControlStateNormal];
+                 [self.but16 setTitle:@"15" forState:UIControlStateNormal];
+                 [self.but17 setTitle:@"16" forState:UIControlStateNormal];
+                 [self.but18 setTitle:@"17" forState:UIControlStateNormal];
+                 [self.but19 setTitle:@"18" forState:UIControlStateNormal];
+                 [self.but20 setTitle:@"19" forState:UIControlStateNormal];
+                 [self.but21 setTitle:@"20" forState:UIControlStateNormal];
+                 [self.but22 setTitle:@"21" forState:UIControlStateNormal];
+                 [self.but23 setTitle:@"22" forState:UIControlStateNormal];
+                 [self.but24 setTitle:@"23" forState:UIControlStateNormal];
+                 [self.but25 setTitle:@"24" forState:UIControlStateNormal];
+                 [self.but26 setTitle:@"25" forState:UIControlStateNormal];
+                 [self.but27 setTitle:@"26" forState:UIControlStateNormal];
+                 [self.but28 setTitle:@"27" forState:UIControlStateNormal];
+                 [self.but29 setTitle:@"28" forState:UIControlStateNormal];
+                 [self.but30 setTitle:@"" forState:UIControlStateNormal];
+                 [self.but31 setTitle:@"" forState:UIControlStateNormal];
+                 [self.but32 setTitle:@"" forState:UIControlStateNormal];
+                 [self.but33 setTitle:@"" forState:UIControlStateNormal];
+                 [self.but34 setTitle:@"" forState:UIControlStateNormal];
+                 [self.but35 setTitle:@"" forState:UIControlStateNormal];
+             }else{
+                 [self.but1 setTitle:@"" forState:UIControlStateNormal];
+                 [self.but2 setTitle:@"1" forState:UIControlStateNormal];
+                 [self.but3 setTitle:@"2" forState:UIControlStateNormal];
+                 [self.but4 setTitle:@"3" forState:UIControlStateNormal];
+                 [self.but5 setTitle:@"4" forState:UIControlStateNormal];
+                 [self.but6 setTitle:@"5" forState:UIControlStateNormal];
+                 [self.but7 setTitle:@"6" forState:UIControlStateNormal];
+                 [self.but8 setTitle:@"7" forState:UIControlStateNormal];
+                 [self.but9 setTitle:@"8" forState:UIControlStateNormal];
+                 [self.but10 setTitle:@"9" forState:UIControlStateNormal];
+                 [self.but11 setTitle:@"10" forState:UIControlStateNormal];
+                 [self.but12 setTitle:@"11" forState:UIControlStateNormal];
+                 [self.but13 setTitle:@"12" forState:UIControlStateNormal];
+                 [self.but14 setTitle:@"13" forState:UIControlStateNormal];
+                 [self.but15 setTitle:@"14" forState:UIControlStateNormal];
+                 [self.but16 setTitle:@"15" forState:UIControlStateNormal];
+                 [self.but17 setTitle:@"16" forState:UIControlStateNormal];
+                 [self.but18 setTitle:@"17" forState:UIControlStateNormal];
+                 [self.but19 setTitle:@"18" forState:UIControlStateNormal];
+                 [self.but20 setTitle:@"19" forState:UIControlStateNormal];
+                 [self.but21 setTitle:@"20" forState:UIControlStateNormal];
+                 [self.but22 setTitle:@"21" forState:UIControlStateNormal];
+                 [self.but23 setTitle:@"22" forState:UIControlStateNormal];
+                 [self.but24 setTitle:@"23" forState:UIControlStateNormal];
+                 [self.but25 setTitle:@"24" forState:UIControlStateNormal];
+                 [self.but26 setTitle:@"25" forState:UIControlStateNormal];
+                 [self.but27 setTitle:@"26" forState:UIControlStateNormal];
+                 [self.but28 setTitle:@"27" forState:UIControlStateNormal];
+                 [self.but29 setTitle:@"28" forState:UIControlStateNormal];
+                 [self.but30 setTitle:@"29" forState:UIControlStateNormal];
+                 [self.but31 setTitle:@"" forState:UIControlStateNormal];
+                 [self.but32 setTitle:@"" forState:UIControlStateNormal];
+                 [self.but33 setTitle:@"" forState:UIControlStateNormal];
+                 [self.but34 setTitle:@"" forState:UIControlStateNormal];
+                 [self.but35 setTitle:@"" forState:UIControlStateNormal];
+             }
+         }
+    }else if ([day isEqualToString:@"tue"]){
+         if(month==1 || month ==3 ||month==5 || month==7 || month==8 || month== 10|| month==12){
+        [self.but1 setTitle:@"" forState:UIControlStateNormal];
+        [self.but2 setTitle:@"" forState:UIControlStateNormal];
+        [self.but3 setTitle:@"1" forState:UIControlStateNormal];
+        [self.but4 setTitle:@"2" forState:UIControlStateNormal];
+        [self.but5 setTitle:@"3" forState:UIControlStateNormal];
+        [self.but6 setTitle:@"4" forState:UIControlStateNormal];
+        [self.but7 setTitle:@"5" forState:UIControlStateNormal];
+        [self.but8 setTitle:@"6" forState:UIControlStateNormal];
+        [self.but9 setTitle:@"7" forState:UIControlStateNormal];
+        [self.but10 setTitle:@"8" forState:UIControlStateNormal];
+        [self.but11 setTitle:@"9" forState:UIControlStateNormal];
+        [self.but12 setTitle:@"10" forState:UIControlStateNormal];
+        [self.but13 setTitle:@"11" forState:UIControlStateNormal];
+        [self.but14 setTitle:@"12" forState:UIControlStateNormal];
+        [self.but15 setTitle:@"13" forState:UIControlStateNormal];
+        [self.but16 setTitle:@"14" forState:UIControlStateNormal];
+        [self.but17 setTitle:@"15" forState:UIControlStateNormal];
+        [self.but18 setTitle:@"16" forState:UIControlStateNormal];
+        [self.but19 setTitle:@"17" forState:UIControlStateNormal];
+        [self.but20 setTitle:@"18" forState:UIControlStateNormal];
+        [self.but21 setTitle:@"19" forState:UIControlStateNormal];
+        [self.but22 setTitle:@"20" forState:UIControlStateNormal];
+        [self.but23 setTitle:@"21" forState:UIControlStateNormal];
+        [self.but24 setTitle:@"22" forState:UIControlStateNormal];
+        [self.but25 setTitle:@"23" forState:UIControlStateNormal];
+        [self.but26 setTitle:@"24" forState:UIControlStateNormal];
+        [self.but27 setTitle:@"25" forState:UIControlStateNormal];
+        [self.but28 setTitle:@"26" forState:UIControlStateNormal];
+        [self.but29 setTitle:@"27" forState:UIControlStateNormal];
+        [self.but30 setTitle:@"28" forState:UIControlStateNormal];
+        [self.but31 setTitle:@"29" forState:UIControlStateNormal];
+        [self.but32 setTitle:@"30" forState:UIControlStateNormal];
+        [self.but33 setTitle:@"31" forState:UIControlStateNormal];
+        [self.but34 setTitle:@"" forState:UIControlStateNormal];
+        [self.but35 setTitle:@"" forState:UIControlStateNormal];
+         }else if (month==4 ||month== 6 || month== 9 || month==11){
+             [self.but1 setTitle:@"" forState:UIControlStateNormal];
+             [self.but2 setTitle:@"" forState:UIControlStateNormal];
+             [self.but3 setTitle:@"1" forState:UIControlStateNormal];
+             [self.but4 setTitle:@"2" forState:UIControlStateNormal];
+             [self.but5 setTitle:@"3" forState:UIControlStateNormal];
+             [self.but6 setTitle:@"4" forState:UIControlStateNormal];
+             [self.but7 setTitle:@"5" forState:UIControlStateNormal];
+             [self.but8 setTitle:@"6" forState:UIControlStateNormal];
+             [self.but9 setTitle:@"7" forState:UIControlStateNormal];
+             [self.but10 setTitle:@"8" forState:UIControlStateNormal];
+             [self.but11 setTitle:@"9" forState:UIControlStateNormal];
+             [self.but12 setTitle:@"10" forState:UIControlStateNormal];
+             [self.but13 setTitle:@"11" forState:UIControlStateNormal];
+             [self.but14 setTitle:@"12" forState:UIControlStateNormal];
+             [self.but15 setTitle:@"13" forState:UIControlStateNormal];
+             [self.but16 setTitle:@"14" forState:UIControlStateNormal];
+             [self.but17 setTitle:@"15" forState:UIControlStateNormal];
+             [self.but18 setTitle:@"16" forState:UIControlStateNormal];
+             [self.but19 setTitle:@"17" forState:UIControlStateNormal];
+             [self.but20 setTitle:@"18" forState:UIControlStateNormal];
+             [self.but21 setTitle:@"19" forState:UIControlStateNormal];
+             [self.but22 setTitle:@"20" forState:UIControlStateNormal];
+             [self.but23 setTitle:@"21" forState:UIControlStateNormal];
+             [self.but24 setTitle:@"22" forState:UIControlStateNormal];
+             [self.but25 setTitle:@"23" forState:UIControlStateNormal];
+             [self.but26 setTitle:@"24" forState:UIControlStateNormal];
+             [self.but27 setTitle:@"25" forState:UIControlStateNormal];
+             [self.but28 setTitle:@"26" forState:UIControlStateNormal];
+             [self.but29 setTitle:@"27" forState:UIControlStateNormal];
+             [self.but30 setTitle:@"28" forState:UIControlStateNormal];
+             [self.but31 setTitle:@"29" forState:UIControlStateNormal];
+             [self.but32 setTitle:@"30" forState:UIControlStateNormal];
+             [self.but33 setTitle:@"" forState:UIControlStateNormal];
+             [self.but34 setTitle:@"" forState:UIControlStateNormal];
+             [self.but35 setTitle:@"" forState:UIControlStateNormal];
+
+         
+         }else if(month== 2){
+             if(daysOfMonth.count==28){
+                 [self.but1 setTitle:@"" forState:UIControlStateNormal];
+                 [self.but2 setTitle:@"" forState:UIControlStateNormal];
+                 [self.but3 setTitle:@"1" forState:UIControlStateNormal];
+                 [self.but4 setTitle:@"2" forState:UIControlStateNormal];
+                 [self.but5 setTitle:@"3" forState:UIControlStateNormal];
+                 [self.but6 setTitle:@"4" forState:UIControlStateNormal];
+                 [self.but7 setTitle:@"5" forState:UIControlStateNormal];
+                 [self.but8 setTitle:@"6" forState:UIControlStateNormal];
+                 [self.but9 setTitle:@"7" forState:UIControlStateNormal];
+                 [self.but10 setTitle:@"8" forState:UIControlStateNormal];
+                 [self.but11 setTitle:@"9" forState:UIControlStateNormal];
+                 [self.but12 setTitle:@"10" forState:UIControlStateNormal];
+                 [self.but13 setTitle:@"11" forState:UIControlStateNormal];
+                 [self.but14 setTitle:@"12" forState:UIControlStateNormal];
+                 [self.but15 setTitle:@"13" forState:UIControlStateNormal];
+                 [self.but16 setTitle:@"14" forState:UIControlStateNormal];
+                 [self.but17 setTitle:@"15" forState:UIControlStateNormal];
+                 [self.but18 setTitle:@"16" forState:UIControlStateNormal];
+                 [self.but19 setTitle:@"17" forState:UIControlStateNormal];
+                 [self.but20 setTitle:@"18" forState:UIControlStateNormal];
+                 [self.but21 setTitle:@"19" forState:UIControlStateNormal];
+                 [self.but22 setTitle:@"20" forState:UIControlStateNormal];
+                 [self.but23 setTitle:@"21" forState:UIControlStateNormal];
+                 [self.but24 setTitle:@"22" forState:UIControlStateNormal];
+                 [self.but25 setTitle:@"23" forState:UIControlStateNormal];
+                 [self.but26 setTitle:@"24" forState:UIControlStateNormal];
+                 [self.but27 setTitle:@"25" forState:UIControlStateNormal];
+                 [self.but28 setTitle:@"26" forState:UIControlStateNormal];
+                 [self.but29 setTitle:@"27" forState:UIControlStateNormal];
+                 [self.but30 setTitle:@"28" forState:UIControlStateNormal];
+                 [self.but31 setTitle:@"" forState:UIControlStateNormal];
+                 [self.but32 setTitle:@"" forState:UIControlStateNormal];
+                 [self.but33 setTitle:@"" forState:UIControlStateNormal];
+                 [self.but34 setTitle:@"" forState:UIControlStateNormal];
+                 [self.but35 setTitle:@"" forState:UIControlStateNormal];
+             }else{
+                 [self.but1 setTitle:@"" forState:UIControlStateNormal];
+                 [self.but2 setTitle:@"" forState:UIControlStateNormal];
+                 [self.but3 setTitle:@"1" forState:UIControlStateNormal];
+                 [self.but4 setTitle:@"2" forState:UIControlStateNormal];
+                 [self.but5 setTitle:@"3" forState:UIControlStateNormal];
+                 [self.but6 setTitle:@"4" forState:UIControlStateNormal];
+                 [self.but7 setTitle:@"5" forState:UIControlStateNormal];
+                 [self.but8 setTitle:@"6" forState:UIControlStateNormal];
+                 [self.but9 setTitle:@"7" forState:UIControlStateNormal];
+                 [self.but10 setTitle:@"8" forState:UIControlStateNormal];
+                 [self.but11 setTitle:@"9" forState:UIControlStateNormal];
+                 [self.but12 setTitle:@"10" forState:UIControlStateNormal];
+                 [self.but13 setTitle:@"11" forState:UIControlStateNormal];
+                 [self.but14 setTitle:@"12" forState:UIControlStateNormal];
+                 [self.but15 setTitle:@"13" forState:UIControlStateNormal];
+                 [self.but16 setTitle:@"14" forState:UIControlStateNormal];
+                 [self.but17 setTitle:@"15" forState:UIControlStateNormal];
+                 [self.but18 setTitle:@"16" forState:UIControlStateNormal];
+                 [self.but19 setTitle:@"17" forState:UIControlStateNormal];
+                 [self.but20 setTitle:@"18" forState:UIControlStateNormal];
+                 [self.but21 setTitle:@"19" forState:UIControlStateNormal];
+                 [self.but22 setTitle:@"20" forState:UIControlStateNormal];
+                 [self.but23 setTitle:@"21" forState:UIControlStateNormal];
+                 [self.but24 setTitle:@"22" forState:UIControlStateNormal];
+                 [self.but25 setTitle:@"23" forState:UIControlStateNormal];
+                 [self.but26 setTitle:@"24" forState:UIControlStateNormal];
+                 [self.but27 setTitle:@"25" forState:UIControlStateNormal];
+                 [self.but28 setTitle:@"26" forState:UIControlStateNormal];
+                 [self.but29 setTitle:@"27" forState:UIControlStateNormal];
+                 [self.but30 setTitle:@"28" forState:UIControlStateNormal];
+                 [self.but31 setTitle:@"29" forState:UIControlStateNormal];
+                 [self.but32 setTitle:@"" forState:UIControlStateNormal];
+                 [self.but33 setTitle:@"" forState:UIControlStateNormal];
+                 [self.but34 setTitle:@"" forState:UIControlStateNormal];
+                 [self.but35 setTitle:@"" forState:UIControlStateNormal];
+             }
+         }
+    }else if ([day isEqualToString:@"wed"]){
+         if(month==1 || month ==3 ||month==5 || month==7 || month==8 || month== 10|| month==12){
+        [self.but1 setTitle:@"" forState:UIControlStateNormal];
+        [self.but2 setTitle:@"" forState:UIControlStateNormal];
+        [self.but3 setTitle:@"" forState:UIControlStateNormal];
+        [self.but4 setTitle:@"1" forState:UIControlStateNormal];
+        [self.but5 setTitle:@"2" forState:UIControlStateNormal];
+        [self.but6 setTitle:@"3" forState:UIControlStateNormal];
+        [self.but7 setTitle:@"4" forState:UIControlStateNormal];
+        [self.but8 setTitle:@"5" forState:UIControlStateNormal];
+        [self.but9 setTitle:@"6" forState:UIControlStateNormal];
+        [self.but10 setTitle:@"7" forState:UIControlStateNormal];
+        [self.but11 setTitle:@"8" forState:UIControlStateNormal];
+        [self.but12 setTitle:@"9" forState:UIControlStateNormal];
+        [self.but13 setTitle:@"10" forState:UIControlStateNormal];
+        [self.but14 setTitle:@"11" forState:UIControlStateNormal];
+        [self.but15 setTitle:@"12" forState:UIControlStateNormal];
+        [self.but16 setTitle:@"13" forState:UIControlStateNormal];
+        [self.but17 setTitle:@"14" forState:UIControlStateNormal];
+        [self.but18 setTitle:@"15" forState:UIControlStateNormal];
+        [self.but19 setTitle:@"16" forState:UIControlStateNormal];
+        [self.but20 setTitle:@"17" forState:UIControlStateNormal];
+        [self.but21 setTitle:@"18" forState:UIControlStateNormal];
+        [self.but22 setTitle:@"19" forState:UIControlStateNormal];
+        [self.but23 setTitle:@"20" forState:UIControlStateNormal];
+        [self.but24 setTitle:@"21" forState:UIControlStateNormal];
+        [self.but25 setTitle:@"22" forState:UIControlStateNormal];
+        [self.but26 setTitle:@"23" forState:UIControlStateNormal];
+        [self.but27 setTitle:@"24" forState:UIControlStateNormal];
+        [self.but28 setTitle:@"25" forState:UIControlStateNormal];
+        [self.but29 setTitle:@"26" forState:UIControlStateNormal];
+        [self.but30 setTitle:@"27" forState:UIControlStateNormal];
+        [self.but31 setTitle:@"28" forState:UIControlStateNormal];
+        [self.but32 setTitle:@"29" forState:UIControlStateNormal];
+        [self.but33 setTitle:@"30" forState:UIControlStateNormal];
+        [self.but34 setTitle:@"31" forState:UIControlStateNormal];
+        [self.but35 setTitle:@"" forState:UIControlStateNormal];
+         }else if (month==4 ||month== 6 || month== 9 || month==11){
+             [self.but1 setTitle:@"" forState:UIControlStateNormal];
+             [self.but2 setTitle:@"" forState:UIControlStateNormal];
+             [self.but3 setTitle:@"" forState:UIControlStateNormal];
+             [self.but4 setTitle:@"1" forState:UIControlStateNormal];
+             [self.but5 setTitle:@"2" forState:UIControlStateNormal];
+             [self.but6 setTitle:@"3" forState:UIControlStateNormal];
+             [self.but7 setTitle:@"4" forState:UIControlStateNormal];
+             [self.but8 setTitle:@"5" forState:UIControlStateNormal];
+             [self.but9 setTitle:@"6" forState:UIControlStateNormal];
+             [self.but10 setTitle:@"7" forState:UIControlStateNormal];
+             [self.but11 setTitle:@"8" forState:UIControlStateNormal];
+             [self.but12 setTitle:@"9" forState:UIControlStateNormal];
+             [self.but13 setTitle:@"10" forState:UIControlStateNormal];
+             [self.but14 setTitle:@"11" forState:UIControlStateNormal];
+             [self.but15 setTitle:@"12" forState:UIControlStateNormal];
+             [self.but16 setTitle:@"13" forState:UIControlStateNormal];
+             [self.but17 setTitle:@"14" forState:UIControlStateNormal];
+             [self.but18 setTitle:@"15" forState:UIControlStateNormal];
+             [self.but19 setTitle:@"16" forState:UIControlStateNormal];
+             [self.but20 setTitle:@"17" forState:UIControlStateNormal];
+             [self.but21 setTitle:@"18" forState:UIControlStateNormal];
+             [self.but22 setTitle:@"19" forState:UIControlStateNormal];
+             [self.but23 setTitle:@"20" forState:UIControlStateNormal];
+             [self.but24 setTitle:@"21" forState:UIControlStateNormal];
+             [self.but25 setTitle:@"22" forState:UIControlStateNormal];
+             [self.but26 setTitle:@"23" forState:UIControlStateNormal];
+             [self.but27 setTitle:@"24" forState:UIControlStateNormal];
+             [self.but28 setTitle:@"25" forState:UIControlStateNormal];
+             [self.but29 setTitle:@"26" forState:UIControlStateNormal];
+             [self.but30 setTitle:@"27" forState:UIControlStateNormal];
+             [self.but31 setTitle:@"28" forState:UIControlStateNormal];
+             [self.but32 setTitle:@"29" forState:UIControlStateNormal];
+             [self.but33 setTitle:@"30" forState:UIControlStateNormal];
+             [self.but34 setTitle:@"" forState:UIControlStateNormal];
+             [self.but35 setTitle:@"" forState:UIControlStateNormal];
+
+         }else if(month== 2){
+             if(daysOfMonth.count==28){
+                 [self.but1 setTitle:@"" forState:UIControlStateNormal];
+                 [self.but2 setTitle:@"" forState:UIControlStateNormal];
+                 [self.but3 setTitle:@"" forState:UIControlStateNormal];
+                 [self.but4 setTitle:@"1" forState:UIControlStateNormal];
+                 [self.but5 setTitle:@"2" forState:UIControlStateNormal];
+                 [self.but6 setTitle:@"3" forState:UIControlStateNormal];
+                 [self.but7 setTitle:@"4" forState:UIControlStateNormal];
+                 [self.but8 setTitle:@"5" forState:UIControlStateNormal];
+                 [self.but9 setTitle:@"6" forState:UIControlStateNormal];
+                 [self.but10 setTitle:@"7" forState:UIControlStateNormal];
+                 [self.but11 setTitle:@"8" forState:UIControlStateNormal];
+                 [self.but12 setTitle:@"9" forState:UIControlStateNormal];
+                 [self.but13 setTitle:@"10" forState:UIControlStateNormal];
+                 [self.but14 setTitle:@"11" forState:UIControlStateNormal];
+                 [self.but15 setTitle:@"12" forState:UIControlStateNormal];
+                 [self.but16 setTitle:@"13" forState:UIControlStateNormal];
+                 [self.but17 setTitle:@"14" forState:UIControlStateNormal];
+                 [self.but18 setTitle:@"15" forState:UIControlStateNormal];
+                 [self.but19 setTitle:@"16" forState:UIControlStateNormal];
+                 [self.but20 setTitle:@"17" forState:UIControlStateNormal];
+                 [self.but21 setTitle:@"18" forState:UIControlStateNormal];
+                 [self.but22 setTitle:@"19" forState:UIControlStateNormal];
+                 [self.but23 setTitle:@"20" forState:UIControlStateNormal];
+                 [self.but24 setTitle:@"21" forState:UIControlStateNormal];
+                 [self.but25 setTitle:@"22" forState:UIControlStateNormal];
+                 [self.but26 setTitle:@"23" forState:UIControlStateNormal];
+                 [self.but27 setTitle:@"24" forState:UIControlStateNormal];
+                 [self.but28 setTitle:@"25" forState:UIControlStateNormal];
+                 [self.but29 setTitle:@"26" forState:UIControlStateNormal];
+                 [self.but30 setTitle:@"27" forState:UIControlStateNormal];
+                 [self.but31 setTitle:@"28" forState:UIControlStateNormal];
+                 [self.but32 setTitle:@"" forState:UIControlStateNormal];
+                 [self.but33 setTitle:@"" forState:UIControlStateNormal];
+                 [self.but34 setTitle:@"" forState:UIControlStateNormal];
+                 [self.but35 setTitle:@"" forState:UIControlStateNormal];
+             }else{
+                 [self.but1 setTitle:@"" forState:UIControlStateNormal];
+                 [self.but2 setTitle:@"" forState:UIControlStateNormal];
+                 [self.but3 setTitle:@"" forState:UIControlStateNormal];
+                 [self.but4 setTitle:@"1" forState:UIControlStateNormal];
+                 [self.but5 setTitle:@"2" forState:UIControlStateNormal];
+                 [self.but6 setTitle:@"3" forState:UIControlStateNormal];
+                 [self.but7 setTitle:@"4" forState:UIControlStateNormal];
+                 [self.but8 setTitle:@"5" forState:UIControlStateNormal];
+                 [self.but9 setTitle:@"6" forState:UIControlStateNormal];
+                 [self.but10 setTitle:@"7" forState:UIControlStateNormal];
+                 [self.but11 setTitle:@"8" forState:UIControlStateNormal];
+                 [self.but12 setTitle:@"9" forState:UIControlStateNormal];
+                 [self.but13 setTitle:@"10" forState:UIControlStateNormal];
+                 [self.but14 setTitle:@"11" forState:UIControlStateNormal];
+                 [self.but15 setTitle:@"12" forState:UIControlStateNormal];
+                 [self.but16 setTitle:@"13" forState:UIControlStateNormal];
+                 [self.but17 setTitle:@"14" forState:UIControlStateNormal];
+                 [self.but18 setTitle:@"15" forState:UIControlStateNormal];
+                 [self.but19 setTitle:@"16" forState:UIControlStateNormal];
+                 [self.but20 setTitle:@"17" forState:UIControlStateNormal];
+                 [self.but21 setTitle:@"18" forState:UIControlStateNormal];
+                 [self.but22 setTitle:@"19" forState:UIControlStateNormal];
+                 [self.but23 setTitle:@"20" forState:UIControlStateNormal];
+                 [self.but24 setTitle:@"21" forState:UIControlStateNormal];
+                 [self.but25 setTitle:@"22" forState:UIControlStateNormal];
+                 [self.but26 setTitle:@"23" forState:UIControlStateNormal];
+                 [self.but27 setTitle:@"24" forState:UIControlStateNormal];
+                 [self.but28 setTitle:@"25" forState:UIControlStateNormal];
+                 [self.but29 setTitle:@"26" forState:UIControlStateNormal];
+                 [self.but30 setTitle:@"27" forState:UIControlStateNormal];
+                 [self.but31 setTitle:@"28" forState:UIControlStateNormal];
+                 [self.but32 setTitle:@"29" forState:UIControlStateNormal];
+                 [self.but33 setTitle:@"" forState:UIControlStateNormal];
+                 [self.but34 setTitle:@"" forState:UIControlStateNormal];
+                 [self.but35 setTitle:@"" forState:UIControlStateNormal];
+             }
+         }
+    }else if ([day isEqualToString:@"thu"]){
+         if(month==1 || month ==3 ||month==5 || month==7 || month==8 || month== 10|| month==12){
+        [self.but1 setTitle:@"" forState:UIControlStateNormal];
+        [self.but2 setTitle:@"" forState:UIControlStateNormal];
+        [self.but3 setTitle:@"" forState:UIControlStateNormal];
+        [self.but4 setTitle:@"" forState:UIControlStateNormal];
+        [self.but5 setTitle:@"1" forState:UIControlStateNormal];
+        [self.but6 setTitle:@"2" forState:UIControlStateNormal];
+        [self.but7 setTitle:@"3" forState:UIControlStateNormal];
+        [self.but8 setTitle:@"4" forState:UIControlStateNormal];
+        [self.but9 setTitle:@"5" forState:UIControlStateNormal];
+        [self.but10 setTitle:@"6" forState:UIControlStateNormal];
+        [self.but11 setTitle:@"7" forState:UIControlStateNormal];
+        [self.but12 setTitle:@"8" forState:UIControlStateNormal];
+        [self.but13 setTitle:@"9" forState:UIControlStateNormal];
+        [self.but14 setTitle:@"10" forState:UIControlStateNormal];
+        [self.but15 setTitle:@"11" forState:UIControlStateNormal];
+        [self.but16 setTitle:@"12" forState:UIControlStateNormal];
+        [self.but17 setTitle:@"13" forState:UIControlStateNormal];
+        [self.but18 setTitle:@"14" forState:UIControlStateNormal];
+        [self.but19 setTitle:@"15" forState:UIControlStateNormal];
+        [self.but20 setTitle:@"16" forState:UIControlStateNormal];
+        [self.but21 setTitle:@"17" forState:UIControlStateNormal];
+        [self.but22 setTitle:@"18" forState:UIControlStateNormal];
+        [self.but23 setTitle:@"19" forState:UIControlStateNormal];
+        [self.but24 setTitle:@"20" forState:UIControlStateNormal];
+        [self.but25 setTitle:@"21" forState:UIControlStateNormal];
+        [self.but26 setTitle:@"22" forState:UIControlStateNormal];
+        [self.but27 setTitle:@"23" forState:UIControlStateNormal];
+        [self.but28 setTitle:@"24" forState:UIControlStateNormal];
+        [self.but29 setTitle:@"25" forState:UIControlStateNormal];
+        [self.but30 setTitle:@"26" forState:UIControlStateNormal];
+        [self.but31 setTitle:@"27" forState:UIControlStateNormal];
+        [self.but32 setTitle:@"28" forState:UIControlStateNormal];
+        [self.but33 setTitle:@"29" forState:UIControlStateNormal];
+        [self.but34 setTitle:@"30" forState:UIControlStateNormal];
+        [self.but35 setTitle:@"31" forState:UIControlStateNormal];
+         }else if (month==4 ||month== 6 || month== 9 || month==11){
+             [self.but1 setTitle:@"" forState:UIControlStateNormal];
+             [self.but2 setTitle:@"" forState:UIControlStateNormal];
+             [self.but3 setTitle:@"" forState:UIControlStateNormal];
+             [self.but4 setTitle:@"" forState:UIControlStateNormal];
+             [self.but5 setTitle:@"1" forState:UIControlStateNormal];
+             [self.but6 setTitle:@"2" forState:UIControlStateNormal];
+             [self.but7 setTitle:@"3" forState:UIControlStateNormal];
+             [self.but8 setTitle:@"4" forState:UIControlStateNormal];
+             [self.but9 setTitle:@"5" forState:UIControlStateNormal];
+             [self.but10 setTitle:@"6" forState:UIControlStateNormal];
+             [self.but11 setTitle:@"7" forState:UIControlStateNormal];
+             [self.but12 setTitle:@"8" forState:UIControlStateNormal];
+             [self.but13 setTitle:@"9" forState:UIControlStateNormal];
+             [self.but14 setTitle:@"10" forState:UIControlStateNormal];
+             [self.but15 setTitle:@"11" forState:UIControlStateNormal];
+             [self.but16 setTitle:@"12" forState:UIControlStateNormal];
+             [self.but17 setTitle:@"13" forState:UIControlStateNormal];
+             [self.but18 setTitle:@"14" forState:UIControlStateNormal];
+             [self.but19 setTitle:@"15" forState:UIControlStateNormal];
+             [self.but20 setTitle:@"16" forState:UIControlStateNormal];
+             [self.but21 setTitle:@"17" forState:UIControlStateNormal];
+             [self.but22 setTitle:@"18" forState:UIControlStateNormal];
+             [self.but23 setTitle:@"19" forState:UIControlStateNormal];
+             [self.but24 setTitle:@"20" forState:UIControlStateNormal];
+             [self.but25 setTitle:@"21" forState:UIControlStateNormal];
+             [self.but26 setTitle:@"22" forState:UIControlStateNormal];
+             [self.but27 setTitle:@"23" forState:UIControlStateNormal];
+             [self.but28 setTitle:@"24" forState:UIControlStateNormal];
+             [self.but29 setTitle:@"25" forState:UIControlStateNormal];
+             [self.but30 setTitle:@"26" forState:UIControlStateNormal];
+             [self.but31 setTitle:@"27" forState:UIControlStateNormal];
+             [self.but32 setTitle:@"28" forState:UIControlStateNormal];
+             [self.but33 setTitle:@"29" forState:UIControlStateNormal];
+             [self.but34 setTitle:@"30" forState:UIControlStateNormal];
+             [self.but35 setTitle:@"" forState:UIControlStateNormal];
+
+         }else if(month== 2){
+             if(daysOfMonth.count==28){
+                 [self.but1 setTitle:@"" forState:UIControlStateNormal];
+                 [self.but2 setTitle:@"" forState:UIControlStateNormal];
+                 [self.but3 setTitle:@"" forState:UIControlStateNormal];
+                 [self.but4 setTitle:@"" forState:UIControlStateNormal];
+                 [self.but5 setTitle:@"1" forState:UIControlStateNormal];
+                 [self.but6 setTitle:@"2" forState:UIControlStateNormal];
+                 [self.but7 setTitle:@"3" forState:UIControlStateNormal];
+                 [self.but8 setTitle:@"4" forState:UIControlStateNormal];
+                 [self.but9 setTitle:@"5" forState:UIControlStateNormal];
+                 [self.but10 setTitle:@"6" forState:UIControlStateNormal];
+                 [self.but11 setTitle:@"7" forState:UIControlStateNormal];
+                 [self.but12 setTitle:@"8" forState:UIControlStateNormal];
+                 [self.but13 setTitle:@"9" forState:UIControlStateNormal];
+                 [self.but14 setTitle:@"10" forState:UIControlStateNormal];
+                 [self.but15 setTitle:@"11" forState:UIControlStateNormal];
+                 [self.but16 setTitle:@"12" forState:UIControlStateNormal];
+                 [self.but17 setTitle:@"13" forState:UIControlStateNormal];
+                 [self.but18 setTitle:@"14" forState:UIControlStateNormal];
+                 [self.but19 setTitle:@"15" forState:UIControlStateNormal];
+                 [self.but20 setTitle:@"16" forState:UIControlStateNormal];
+                 [self.but21 setTitle:@"17" forState:UIControlStateNormal];
+                 [self.but22 setTitle:@"18" forState:UIControlStateNormal];
+                 [self.but23 setTitle:@"19" forState:UIControlStateNormal];
+                 [self.but24 setTitle:@"20" forState:UIControlStateNormal];
+                 [self.but25 setTitle:@"21" forState:UIControlStateNormal];
+                 [self.but26 setTitle:@"22" forState:UIControlStateNormal];
+                 [self.but27 setTitle:@"23" forState:UIControlStateNormal];
+                 [self.but28 setTitle:@"24" forState:UIControlStateNormal];
+                 [self.but29 setTitle:@"25" forState:UIControlStateNormal];
+                 [self.but30 setTitle:@"26" forState:UIControlStateNormal];
+                 [self.but31 setTitle:@"27" forState:UIControlStateNormal];
+                 [self.but32 setTitle:@"28" forState:UIControlStateNormal];
+                 [self.but33 setTitle:@"" forState:UIControlStateNormal];
+                 [self.but34 setTitle:@"" forState:UIControlStateNormal];
+                 [self.but35 setTitle:@"" forState:UIControlStateNormal];
+
+             }else{
+                 [self.but1 setTitle:@"" forState:UIControlStateNormal];
+                 [self.but2 setTitle:@"" forState:UIControlStateNormal];
+                 [self.but3 setTitle:@"" forState:UIControlStateNormal];
+                 [self.but4 setTitle:@"" forState:UIControlStateNormal];
+                 [self.but5 setTitle:@"1" forState:UIControlStateNormal];
+                 [self.but6 setTitle:@"2" forState:UIControlStateNormal];
+                 [self.but7 setTitle:@"3" forState:UIControlStateNormal];
+                 [self.but8 setTitle:@"4" forState:UIControlStateNormal];
+                 [self.but9 setTitle:@"5" forState:UIControlStateNormal];
+                 [self.but10 setTitle:@"6" forState:UIControlStateNormal];
+                 [self.but11 setTitle:@"7" forState:UIControlStateNormal];
+                 [self.but12 setTitle:@"8" forState:UIControlStateNormal];
+                 [self.but13 setTitle:@"9" forState:UIControlStateNormal];
+                 [self.but14 setTitle:@"10" forState:UIControlStateNormal];
+                 [self.but15 setTitle:@"11" forState:UIControlStateNormal];
+                 [self.but16 setTitle:@"12" forState:UIControlStateNormal];
+                 [self.but17 setTitle:@"13" forState:UIControlStateNormal];
+                 [self.but18 setTitle:@"14" forState:UIControlStateNormal];
+                 [self.but19 setTitle:@"15" forState:UIControlStateNormal];
+                 [self.but20 setTitle:@"16" forState:UIControlStateNormal];
+                 [self.but21 setTitle:@"17" forState:UIControlStateNormal];
+                 [self.but22 setTitle:@"18" forState:UIControlStateNormal];
+                 [self.but23 setTitle:@"19" forState:UIControlStateNormal];
+                 [self.but24 setTitle:@"20" forState:UIControlStateNormal];
+                 [self.but25 setTitle:@"21" forState:UIControlStateNormal];
+                 [self.but26 setTitle:@"22" forState:UIControlStateNormal];
+                 [self.but27 setTitle:@"23" forState:UIControlStateNormal];
+                 [self.but28 setTitle:@"24" forState:UIControlStateNormal];
+                 [self.but29 setTitle:@"25" forState:UIControlStateNormal];
+                 [self.but30 setTitle:@"26" forState:UIControlStateNormal];
+                 [self.but31 setTitle:@"27" forState:UIControlStateNormal];
+                 [self.but32 setTitle:@"28" forState:UIControlStateNormal];
+                 [self.but33 setTitle:@"29" forState:UIControlStateNormal];
+                 [self.but34 setTitle:@"" forState:UIControlStateNormal];
+                 [self.but35 setTitle:@"" forState:UIControlStateNormal];
+
+             }
+         }
+    }else if ([day isEqualToString:@"fri"]){
+         if(month==1 || month ==3 ||month==5 || month==7 || month==8 || month== 10|| month==12){
+        [self.but1 setTitle:@"31" forState:UIControlStateNormal];
+        [self.but2 setTitle:@"" forState:UIControlStateNormal];
+        [self.but3 setTitle:@"" forState:UIControlStateNormal];
+        [self.but4 setTitle:@"" forState:UIControlStateNormal];
+        [self.but5 setTitle:@"" forState:UIControlStateNormal];
+        [self.but6 setTitle:@"1" forState:UIControlStateNormal];
+        [self.but7 setTitle:@"2" forState:UIControlStateNormal];
+        [self.but8 setTitle:@"3" forState:UIControlStateNormal];
+        [self.but9 setTitle:@"4" forState:UIControlStateNormal];
+        [self.but10 setTitle:@"5" forState:UIControlStateNormal];
+        [self.but11 setTitle:@"6" forState:UIControlStateNormal];
+        [self.but12 setTitle:@"7" forState:UIControlStateNormal];
+        [self.but13 setTitle:@"8" forState:UIControlStateNormal];
+        [self.but14 setTitle:@"9" forState:UIControlStateNormal];
+        [self.but15 setTitle:@"10" forState:UIControlStateNormal];
+        [self.but16 setTitle:@"11" forState:UIControlStateNormal];
+        [self.but17 setTitle:@"12" forState:UIControlStateNormal];
+        [self.but18 setTitle:@"13" forState:UIControlStateNormal];
+        [self.but19 setTitle:@"14" forState:UIControlStateNormal];
+        [self.but20 setTitle:@"15" forState:UIControlStateNormal];
+        [self.but21 setTitle:@"16" forState:UIControlStateNormal];
+        [self.but22 setTitle:@"17" forState:UIControlStateNormal];
+        [self.but23 setTitle:@"18" forState:UIControlStateNormal];
+        [self.but24 setTitle:@"19" forState:UIControlStateNormal];
+        [self.but25 setTitle:@"20" forState:UIControlStateNormal];
+        [self.but26 setTitle:@"21" forState:UIControlStateNormal];
+        [self.but27 setTitle:@"22" forState:UIControlStateNormal];
+        [self.but28 setTitle:@"23" forState:UIControlStateNormal];
+        [self.but29 setTitle:@"24" forState:UIControlStateNormal];
+        [self.but30 setTitle:@"25" forState:UIControlStateNormal];
+        [self.but31 setTitle:@"26" forState:UIControlStateNormal];
+        [self.but32 setTitle:@"27" forState:UIControlStateNormal];
+        [self.but33 setTitle:@"28" forState:UIControlStateNormal];
+        [self.but34 setTitle:@"29" forState:UIControlStateNormal];
+        [self.but35 setTitle:@"30" forState:UIControlStateNormal];
+         }else if (month==4 ||month== 6 || month== 9 || month==11){
+             [self.but1 setTitle:@"" forState:UIControlStateNormal];
+             [self.but2 setTitle:@"" forState:UIControlStateNormal];
+             [self.but3 setTitle:@"" forState:UIControlStateNormal];
+             [self.but4 setTitle:@"" forState:UIControlStateNormal];
+             [self.but5 setTitle:@"" forState:UIControlStateNormal];
+             [self.but6 setTitle:@"1" forState:UIControlStateNormal];
+             [self.but7 setTitle:@"2" forState:UIControlStateNormal];
+             [self.but8 setTitle:@"3" forState:UIControlStateNormal];
+             [self.but9 setTitle:@"4" forState:UIControlStateNormal];
+             [self.but10 setTitle:@"5" forState:UIControlStateNormal];
+             [self.but11 setTitle:@"6" forState:UIControlStateNormal];
+             [self.but12 setTitle:@"7" forState:UIControlStateNormal];
+             [self.but13 setTitle:@"8" forState:UIControlStateNormal];
+             [self.but14 setTitle:@"9" forState:UIControlStateNormal];
+             [self.but15 setTitle:@"10" forState:UIControlStateNormal];
+             [self.but16 setTitle:@"11" forState:UIControlStateNormal];
+             [self.but17 setTitle:@"12" forState:UIControlStateNormal];
+             [self.but18 setTitle:@"13" forState:UIControlStateNormal];
+             [self.but19 setTitle:@"14" forState:UIControlStateNormal];
+             [self.but20 setTitle:@"15" forState:UIControlStateNormal];
+             [self.but21 setTitle:@"16" forState:UIControlStateNormal];
+             [self.but22 setTitle:@"17" forState:UIControlStateNormal];
+             [self.but23 setTitle:@"18" forState:UIControlStateNormal];
+             [self.but24 setTitle:@"19" forState:UIControlStateNormal];
+             [self.but25 setTitle:@"20" forState:UIControlStateNormal];
+             [self.but26 setTitle:@"21" forState:UIControlStateNormal];
+             [self.but27 setTitle:@"22" forState:UIControlStateNormal];
+             [self.but28 setTitle:@"23" forState:UIControlStateNormal];
+             [self.but29 setTitle:@"24" forState:UIControlStateNormal];
+             [self.but30 setTitle:@"25" forState:UIControlStateNormal];
+             [self.but31 setTitle:@"26" forState:UIControlStateNormal];
+             [self.but32 setTitle:@"27" forState:UIControlStateNormal];
+             [self.but33 setTitle:@"28" forState:UIControlStateNormal];
+             [self.but34 setTitle:@"29" forState:UIControlStateNormal];
+             [self.but35 setTitle:@"30" forState:UIControlStateNormal];
+         }else if(month== 2){
+             if(daysOfMonth.count==28){
+                 [self.but1 setTitle:@"" forState:UIControlStateNormal];
+                 [self.but2 setTitle:@"" forState:UIControlStateNormal];
+                 [self.but3 setTitle:@"" forState:UIControlStateNormal];
+                 [self.but4 setTitle:@"" forState:UIControlStateNormal];
+                 [self.but5 setTitle:@"" forState:UIControlStateNormal];
+                 [self.but6 setTitle:@"1" forState:UIControlStateNormal];
+                 [self.but7 setTitle:@"2" forState:UIControlStateNormal];
+                 [self.but8 setTitle:@"3" forState:UIControlStateNormal];
+                 [self.but9 setTitle:@"4" forState:UIControlStateNormal];
+                 [self.but10 setTitle:@"5" forState:UIControlStateNormal];
+                 [self.but11 setTitle:@"6" forState:UIControlStateNormal];
+                 [self.but12 setTitle:@"7" forState:UIControlStateNormal];
+                 [self.but13 setTitle:@"8" forState:UIControlStateNormal];
+                 [self.but14 setTitle:@"9" forState:UIControlStateNormal];
+                 [self.but15 setTitle:@"10" forState:UIControlStateNormal];
+                 [self.but16 setTitle:@"11" forState:UIControlStateNormal];
+                 [self.but17 setTitle:@"12" forState:UIControlStateNormal];
+                 [self.but18 setTitle:@"13" forState:UIControlStateNormal];
+                 [self.but19 setTitle:@"14" forState:UIControlStateNormal];
+                 [self.but20 setTitle:@"15" forState:UIControlStateNormal];
+                 [self.but21 setTitle:@"16" forState:UIControlStateNormal];
+                 [self.but22 setTitle:@"17" forState:UIControlStateNormal];
+                 [self.but23 setTitle:@"18" forState:UIControlStateNormal];
+                 [self.but24 setTitle:@"19" forState:UIControlStateNormal];
+                 [self.but25 setTitle:@"20" forState:UIControlStateNormal];
+                 [self.but26 setTitle:@"21" forState:UIControlStateNormal];
+                 [self.but27 setTitle:@"22" forState:UIControlStateNormal];
+                 [self.but28 setTitle:@"23" forState:UIControlStateNormal];
+                 [self.but29 setTitle:@"24" forState:UIControlStateNormal];
+                 [self.but30 setTitle:@"25" forState:UIControlStateNormal];
+                 [self.but31 setTitle:@"26" forState:UIControlStateNormal];
+                 [self.but32 setTitle:@"27" forState:UIControlStateNormal];
+                 [self.but33 setTitle:@"28" forState:UIControlStateNormal];
+                 [self.but34 setTitle:@"" forState:UIControlStateNormal];
+                 [self.but35 setTitle:@"" forState:UIControlStateNormal];
+
+             }else{
+                 [self.but1 setTitle:@"" forState:UIControlStateNormal];
+                 [self.but2 setTitle:@"" forState:UIControlStateNormal];
+                 [self.but3 setTitle:@"" forState:UIControlStateNormal];
+                 [self.but4 setTitle:@"" forState:UIControlStateNormal];
+                 [self.but5 setTitle:@"" forState:UIControlStateNormal];
+                 [self.but6 setTitle:@"1" forState:UIControlStateNormal];
+                 [self.but7 setTitle:@"2" forState:UIControlStateNormal];
+                 [self.but8 setTitle:@"3" forState:UIControlStateNormal];
+                 [self.but9 setTitle:@"4" forState:UIControlStateNormal];
+                 [self.but10 setTitle:@"5" forState:UIControlStateNormal];
+                 [self.but11 setTitle:@"6" forState:UIControlStateNormal];
+                 [self.but12 setTitle:@"7" forState:UIControlStateNormal];
+                 [self.but13 setTitle:@"8" forState:UIControlStateNormal];
+                 [self.but14 setTitle:@"9" forState:UIControlStateNormal];
+                 [self.but15 setTitle:@"10" forState:UIControlStateNormal];
+                 [self.but16 setTitle:@"11" forState:UIControlStateNormal];
+                 [self.but17 setTitle:@"12" forState:UIControlStateNormal];
+                 [self.but18 setTitle:@"13" forState:UIControlStateNormal];
+                 [self.but19 setTitle:@"14" forState:UIControlStateNormal];
+                 [self.but20 setTitle:@"15" forState:UIControlStateNormal];
+                 [self.but21 setTitle:@"16" forState:UIControlStateNormal];
+                 [self.but22 setTitle:@"17" forState:UIControlStateNormal];
+                 [self.but23 setTitle:@"18" forState:UIControlStateNormal];
+                 [self.but24 setTitle:@"19" forState:UIControlStateNormal];
+                 [self.but25 setTitle:@"20" forState:UIControlStateNormal];
+                 [self.but26 setTitle:@"21" forState:UIControlStateNormal];
+                 [self.but27 setTitle:@"22" forState:UIControlStateNormal];
+                 [self.but28 setTitle:@"23" forState:UIControlStateNormal];
+                 [self.but29 setTitle:@"24" forState:UIControlStateNormal];
+                 [self.but30 setTitle:@"25" forState:UIControlStateNormal];
+                 [self.but31 setTitle:@"26" forState:UIControlStateNormal];
+                 [self.but32 setTitle:@"27" forState:UIControlStateNormal];
+                 [self.but33 setTitle:@"28" forState:UIControlStateNormal];
+                 [self.but34 setTitle:@"29" forState:UIControlStateNormal];
+                 [self.but35 setTitle:@"" forState:UIControlStateNormal];
+
+             }
+         }
+    }else if ([day isEqualToString:@"sat"]){
+         if(month==1 || month ==3 ||month==5 || month==7 || month==8 || month== 10|| month==12){
+        [self.but1 setTitle:@"30" forState:UIControlStateNormal];
+        [self.but2 setTitle:@"31" forState:UIControlStateNormal];
+        [self.but3 setTitle:@"" forState:UIControlStateNormal];
+        [self.but4 setTitle:@"" forState:UIControlStateNormal];
+        [self.but5 setTitle:@"" forState:UIControlStateNormal];
+        [self.but6 setTitle:@"" forState:UIControlStateNormal];
+        [self.but7 setTitle:@"1" forState:UIControlStateNormal];
+        [self.but8 setTitle:@"2" forState:UIControlStateNormal];
+        [self.but9 setTitle:@"3" forState:UIControlStateNormal];
+        [self.but10 setTitle:@"4" forState:UIControlStateNormal];
+        [self.but11 setTitle:@"5" forState:UIControlStateNormal];
+        [self.but12 setTitle:@"6" forState:UIControlStateNormal];
+        [self.but13 setTitle:@"7" forState:UIControlStateNormal];
+        [self.but14 setTitle:@"8" forState:UIControlStateNormal];
+        [self.but15 setTitle:@"9" forState:UIControlStateNormal];
+        [self.but16 setTitle:@"10" forState:UIControlStateNormal];
+        [self.but17 setTitle:@"11" forState:UIControlStateNormal];
+        [self.but18 setTitle:@"12" forState:UIControlStateNormal];
+        [self.but19 setTitle:@"13" forState:UIControlStateNormal];
+        [self.but20 setTitle:@"14" forState:UIControlStateNormal];
+        [self.but21 setTitle:@"15" forState:UIControlStateNormal];
+        [self.but22 setTitle:@"16" forState:UIControlStateNormal];
+        [self.but23 setTitle:@"17" forState:UIControlStateNormal];
+        [self.but24 setTitle:@"18" forState:UIControlStateNormal];
+        [self.but25 setTitle:@"19" forState:UIControlStateNormal];
+        [self.but26 setTitle:@"20" forState:UIControlStateNormal];
+        [self.but27 setTitle:@"21" forState:UIControlStateNormal];
+        [self.but28 setTitle:@"22" forState:UIControlStateNormal];
+        [self.but29 setTitle:@"23" forState:UIControlStateNormal];
+        [self.but30 setTitle:@"24" forState:UIControlStateNormal];
+        [self.but31 setTitle:@"25" forState:UIControlStateNormal];
+        [self.but32 setTitle:@"26" forState:UIControlStateNormal];
+        [self.but33 setTitle:@"27" forState:UIControlStateNormal];
+        [self.but34 setTitle:@"28" forState:UIControlStateNormal];
+        [self.but35 setTitle:@"29" forState:UIControlStateNormal];
+         }
+        else if (month==4 ||month== 6 || month== 9 || month==11){
+            [self.but1 setTitle:@"30" forState:UIControlStateNormal];
+            [self.but2 setTitle:@"" forState:UIControlStateNormal];
+            [self.but3 setTitle:@"" forState:UIControlStateNormal];
+            [self.but4 setTitle:@"" forState:UIControlStateNormal];
+            [self.but5 setTitle:@"" forState:UIControlStateNormal];
+            [self.but6 setTitle:@"" forState:UIControlStateNormal];
+            [self.but7 setTitle:@"1" forState:UIControlStateNormal];
+            [self.but8 setTitle:@"2" forState:UIControlStateNormal];
+            [self.but9 setTitle:@"3" forState:UIControlStateNormal];
+            [self.but10 setTitle:@"4" forState:UIControlStateNormal];
+            [self.but11 setTitle:@"5" forState:UIControlStateNormal];
+            [self.but12 setTitle:@"6" forState:UIControlStateNormal];
+            [self.but13 setTitle:@"7" forState:UIControlStateNormal];
+            [self.but14 setTitle:@"8" forState:UIControlStateNormal];
+            [self.but15 setTitle:@"9" forState:UIControlStateNormal];
+            [self.but16 setTitle:@"10" forState:UIControlStateNormal];
+            [self.but17 setTitle:@"11" forState:UIControlStateNormal];
+            [self.but18 setTitle:@"12" forState:UIControlStateNormal];
+            [self.but19 setTitle:@"13" forState:UIControlStateNormal];
+            [self.but20 setTitle:@"14" forState:UIControlStateNormal];
+            [self.but21 setTitle:@"15" forState:UIControlStateNormal];
+            [self.but22 setTitle:@"16" forState:UIControlStateNormal];
+            [self.but23 setTitle:@"17" forState:UIControlStateNormal];
+            [self.but24 setTitle:@"18" forState:UIControlStateNormal];
+            [self.but25 setTitle:@"19" forState:UIControlStateNormal];
+            [self.but26 setTitle:@"20" forState:UIControlStateNormal];
+            [self.but27 setTitle:@"21" forState:UIControlStateNormal];
+            [self.but28 setTitle:@"22" forState:UIControlStateNormal];
+            [self.but29 setTitle:@"23" forState:UIControlStateNormal];
+            [self.but30 setTitle:@"24" forState:UIControlStateNormal];
+            [self.but31 setTitle:@"25" forState:UIControlStateNormal];
+            [self.but32 setTitle:@"26" forState:UIControlStateNormal];
+            [self.but33 setTitle:@"27" forState:UIControlStateNormal];
+            [self.but34 setTitle:@"28" forState:UIControlStateNormal];
+            [self.but35 setTitle:@"29" forState:UIControlStateNormal];
+
+        }else if(month== 2){
+            if(daysOfMonth.count==28){
+                [self.but1 setTitle:@"" forState:UIControlStateNormal];
+                [self.but2 setTitle:@"" forState:UIControlStateNormal];
+                [self.but3 setTitle:@"" forState:UIControlStateNormal];
+                [self.but4 setTitle:@"" forState:UIControlStateNormal];
+                [self.but5 setTitle:@"" forState:UIControlStateNormal];
+                [self.but6 setTitle:@"" forState:UIControlStateNormal];
+                [self.but7 setTitle:@"1" forState:UIControlStateNormal];
+                [self.but8 setTitle:@"2" forState:UIControlStateNormal];
+                [self.but9 setTitle:@"3" forState:UIControlStateNormal];
+                [self.but10 setTitle:@"4" forState:UIControlStateNormal];
+                [self.but11 setTitle:@"5" forState:UIControlStateNormal];
+                [self.but12 setTitle:@"6" forState:UIControlStateNormal];
+                [self.but13 setTitle:@"7" forState:UIControlStateNormal];
+                [self.but14 setTitle:@"8" forState:UIControlStateNormal];
+                [self.but15 setTitle:@"9" forState:UIControlStateNormal];
+                [self.but16 setTitle:@"10" forState:UIControlStateNormal];
+                [self.but17 setTitle:@"11" forState:UIControlStateNormal];
+                [self.but18 setTitle:@"12" forState:UIControlStateNormal];
+                [self.but19 setTitle:@"13" forState:UIControlStateNormal];
+                [self.but20 setTitle:@"14" forState:UIControlStateNormal];
+                [self.but21 setTitle:@"15" forState:UIControlStateNormal];
+                [self.but22 setTitle:@"16" forState:UIControlStateNormal];
+                [self.but23 setTitle:@"17" forState:UIControlStateNormal];
+                [self.but24 setTitle:@"18" forState:UIControlStateNormal];
+                [self.but25 setTitle:@"19" forState:UIControlStateNormal];
+                [self.but26 setTitle:@"20" forState:UIControlStateNormal];
+                [self.but27 setTitle:@"21" forState:UIControlStateNormal];
+                [self.but28 setTitle:@"22" forState:UIControlStateNormal];
+                [self.but29 setTitle:@"23" forState:UIControlStateNormal];
+                [self.but30 setTitle:@"24" forState:UIControlStateNormal];
+                [self.but31 setTitle:@"25" forState:UIControlStateNormal];
+                [self.but32 setTitle:@"26" forState:UIControlStateNormal];
+                [self.but33 setTitle:@"27" forState:UIControlStateNormal];
+                [self.but34 setTitle:@"28" forState:UIControlStateNormal];
+                [self.but35 setTitle:@"" forState:UIControlStateNormal];
+
+            } else{
+                [self.but1 setTitle:@"" forState:UIControlStateNormal];
+                [self.but2 setTitle:@"" forState:UIControlStateNormal];
+                [self.but3 setTitle:@"" forState:UIControlStateNormal];
+                [self.but4 setTitle:@"" forState:UIControlStateNormal];
+                [self.but5 setTitle:@"" forState:UIControlStateNormal];
+                [self.but6 setTitle:@"" forState:UIControlStateNormal];
+                [self.but7 setTitle:@"1" forState:UIControlStateNormal];
+                [self.but8 setTitle:@"2" forState:UIControlStateNormal];
+                [self.but9 setTitle:@"3" forState:UIControlStateNormal];
+                [self.but10 setTitle:@"4" forState:UIControlStateNormal];
+                [self.but11 setTitle:@"5" forState:UIControlStateNormal];
+                [self.but12 setTitle:@"6" forState:UIControlStateNormal];
+                [self.but13 setTitle:@"7" forState:UIControlStateNormal];
+                [self.but14 setTitle:@"8" forState:UIControlStateNormal];
+                [self.but15 setTitle:@"9" forState:UIControlStateNormal];
+                [self.but16 setTitle:@"10" forState:UIControlStateNormal];
+                [self.but17 setTitle:@"11" forState:UIControlStateNormal];
+                [self.but18 setTitle:@"12" forState:UIControlStateNormal];
+                [self.but19 setTitle:@"13" forState:UIControlStateNormal];
+                [self.but20 setTitle:@"14" forState:UIControlStateNormal];
+                [self.but21 setTitle:@"15" forState:UIControlStateNormal];
+                [self.but22 setTitle:@"16" forState:UIControlStateNormal];
+                [self.but23 setTitle:@"17" forState:UIControlStateNormal];
+                [self.but24 setTitle:@"18" forState:UIControlStateNormal];
+                [self.but25 setTitle:@"19" forState:UIControlStateNormal];
+                [self.but26 setTitle:@"20" forState:UIControlStateNormal];
+                [self.but27 setTitle:@"21" forState:UIControlStateNormal];
+                [self.but28 setTitle:@"22" forState:UIControlStateNormal];
+                [self.but29 setTitle:@"23" forState:UIControlStateNormal];
+                [self.but30 setTitle:@"24" forState:UIControlStateNormal];
+                [self.but31 setTitle:@"25" forState:UIControlStateNormal];
+                [self.but32 setTitle:@"26" forState:UIControlStateNormal];
+                [self.but33 setTitle:@"27" forState:UIControlStateNormal];
+                [self.but34 setTitle:@"28" forState:UIControlStateNormal];
+                [self.but35 setTitle:@"29" forState:UIControlStateNormal];
+
+            }
+        }
+    }
+    
+}
 @end

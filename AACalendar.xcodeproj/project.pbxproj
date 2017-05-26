@@ -15,6 +15,8 @@
 		171706701ED5E20E0027551B /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1717066E1ED5E20E0027551B /* LaunchScreen.storyboard */; };
 		1717067B1ED5E20E0027551B /* AACalendarTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 1717067A1ED5E20E0027551B /* AACalendarTests.m */; };
 		171706861ED5E20E0027551B /* AACalendarUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = 171706851ED5E20E0027551B /* AACalendarUITests.m */; };
+		1728D1121ED8A6F600C24C13 /* Back-64.png in Resources */ = {isa = PBXBuildFile; fileRef = 1728D1101ED8A6F600C24C13 /* Back-64.png */; };
+		1728D1131ED8A6F600C24C13 /* Forward-64.png in Resources */ = {isa = PBXBuildFile; fileRef = 1728D1111ED8A6F600C24C13 /* Forward-64.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -51,6 +53,8 @@
 		171706811ED5E20E0027551B /* AACalendarUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AACalendarUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		171706851ED5E20E0027551B /* AACalendarUITests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AACalendarUITests.m; sourceTree = "<group>"; };
 		171706871ED5E20E0027551B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		1728D1101ED8A6F600C24C13 /* Back-64.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Back-64.png"; sourceTree = "<group>"; };
+		1728D1111ED8A6F600C24C13 /* Forward-64.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Forward-64.png"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -105,6 +109,8 @@
 				171706641ED5E20E0027551B /* AppDelegate.m */,
 				171706661ED5E20E0027551B /* ViewController.h */,
 				171706671ED5E20E0027551B /* ViewController.m */,
+				1728D1101ED8A6F600C24C13 /* Back-64.png */,
+				1728D1111ED8A6F600C24C13 /* Forward-64.png */,
 				171706691ED5E20E0027551B /* Main.storyboard */,
 				1717066C1ED5E20E0027551B /* Assets.xcassets */,
 				1717066E1ED5E20E0027551B /* LaunchScreen.storyboard */,
@@ -248,7 +254,9 @@
 			files = (
 				171706701ED5E20E0027551B /* LaunchScreen.storyboard in Resources */,
 				1717066D1ED5E20E0027551B /* Assets.xcassets in Resources */,
+				1728D1121ED8A6F600C24C13 /* Back-64.png in Resources */,
 				1717066B1ED5E20E0027551B /* Main.storyboard in Resources */,
+				1728D1131ED8A6F600C24C13 /* Forward-64.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -509,6 +517,7 @@
 				1717068C1ED5E20E0027551B /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		1717068D1ED5E20E0027551B /* Build configuration list for PBXNativeTarget "AACalendarTests" */ = {
 			isa = XCConfigurationList;
@@ -517,6 +526,7 @@
 				1717068F1ED5E20E0027551B /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		171706901ED5E20E0027551B /* Build configuration list for PBXNativeTarget "AACalendarUITests" */ = {
 			isa = XCConfigurationList;
@@ -525,6 +535,7 @@
 				171706921ED5E20E0027551B /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 
 @interface ViewController : UIViewController
+@property (weak, nonatomic) IBOutlet UILabel *labelDate;
 @property (weak, nonatomic) IBOutlet UILabel *labelMonth;
 @property (weak, nonatomic) IBOutlet UILabel *labelYear;
 @property (weak, nonatomic) IBOutlet UIButton *but1;
