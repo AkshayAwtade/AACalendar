@@ -12,6 +12,7 @@
     NSMutableArray *arrayYears;
     NSMutableArray *monthArray;
     int month;
+    int day1;
     NSMutableArray *daysOfMonth;
     int dayOffset;
     int yearOffset;
@@ -40,10 +41,10 @@
     NSLog(@"%d",month);
     [dateFormatter setDateFormat:@"dd"];
     int day = [[dateFormatter stringFromDate:[NSDate date]] intValue];
-    
+    day1=day;
     [self monthCalculation:month];
     daysOfMonth=[[NSMutableArray alloc]init];
-    [self daysOfMonthCall];
+  //  [self daysOfMonthCall];
     [self calculateday];
     self.labelDate.text=[NSString stringWithFormat:@"%@ %d %@",self.labelMonth.text,day,self.labelYear.text];
 //    for(int inityear=1970;inityear<=2100;inityear++){
@@ -54,107 +55,107 @@
     // Do any additional setup after loading the view, typically from a nib.
 }
 
-
--(void) daysOfMonthCall{
-    int day;
-    if(month==1){
-        for(day=1;day<=31;day++){
-            [daysOfMonth removeAllObjects];
-            dayString=[NSString stringWithFormat:@"%d",day];
-        [daysOfMonth addObject:dayString];
-        }
-    }
-        else if(month==2){
-                        [daysOfMonth removeAllObjects];
-            if((self.labelYear.text.intValue % 4) ==0){
-            for(day=1;day<=29;day++){
-                dayString=[NSString stringWithFormat:@"%d",day];
-                [daysOfMonth addObject:dayString];
-        }
-            }else{
-                for(day=1;day<=28;day++){
-                    dayString=[NSString stringWithFormat:@"%d",day];
-                    [daysOfMonth addObject:dayString];
-                }
-            }
-    }
-    
-        else if(month==3){
-                        [daysOfMonth removeAllObjects];
-            for(day=1;day<=31;day++){
-                dayString=[NSString stringWithFormat:@"%d",day];
-                [daysOfMonth addObject:dayString];
-            }
-        }
-        else if(month==4){
-                        [daysOfMonth removeAllObjects];
-            for(day=1;day<=30;day++){
-                dayString=[NSString stringWithFormat:@"%d",day];
-                [daysOfMonth addObject:dayString];
-            }
-        }
-        else if(month==5){
-                        [daysOfMonth removeAllObjects];
-            for(day=1;day<=31;day++){
-                dayString=[NSString stringWithFormat:@"%d",day];
-                [daysOfMonth addObject:dayString];
-            }
-        }
-        else if(month==6){
-                        [daysOfMonth removeAllObjects];
-            for(day=1;day<=30;day++){
-                dayString=[NSString stringWithFormat:@"%d",day];
-                [daysOfMonth addObject:dayString];
-            }
-        }
-        else if(month==7){
-                        [daysOfMonth removeAllObjects];
-            for(day=1;day<=31;day++){
-                dayString=[NSString stringWithFormat:@"%d",day];
-                [daysOfMonth addObject:dayString];
-            }
-        }
-        else if(month==8){
-                        [daysOfMonth removeAllObjects];
-            for(day=1;day<=31;day++){
-                dayString=[NSString stringWithFormat:@"%d",day];
-                [daysOfMonth addObject:dayString];
-            }
-        }
-        else if(month==9){
-                        [daysOfMonth removeAllObjects];
-            for(day=1;day<=30;day++){
-                dayString=[NSString stringWithFormat:@"%d",day];
-                [daysOfMonth addObject:dayString];
-            }
-        }
-        else if(month==10){
-                        [daysOfMonth removeAllObjects];
-            for(day=1;day<=31;day++){
-                dayString=[NSString stringWithFormat:@"%d",day];
-                [daysOfMonth addObject:dayString];
-            }
-        }
-        else if(month==11){
-                        [daysOfMonth removeAllObjects];
-            for(day=1;day<=30;day++){
-                dayString=[NSString stringWithFormat:@"%d",day];
-                [daysOfMonth addObject:dayString];
-            }
-        }
-        else if(month==12){
-                        [daysOfMonth removeAllObjects];
-            for(day=1;day<=31;day++){
-                dayString=[NSString stringWithFormat:@"%d",day];
-                [daysOfMonth addObject:dayString];
-            }
-        }
-
-
-    NSLog(@"%@",daysOfMonth);
-
-
-}
+//
+//-(void) daysOfMonthCall{
+//    int day;
+//    if(month==1){
+//        for(day=1;day<=31;day++){
+//            [daysOfMonth removeAllObjects];
+//            dayString=[NSString stringWithFormat:@"%d",day];
+//        [daysOfMonth addObject:dayString];
+//        }
+//    }
+//        else if(month==2){
+//                        [daysOfMonth removeAllObjects];
+//            if((self.labelYear.text.intValue % 4) ==0){
+//            for(day=1;day<=29;day++){
+//                dayString=[NSString stringWithFormat:@"%d",day];
+//                [daysOfMonth addObject:dayString];
+//        }
+//            }else{
+//                for(day=1;day<=28;day++){
+//                    dayString=[NSString stringWithFormat:@"%d",day];
+//                    [daysOfMonth addObject:dayString];
+//                }
+//            }
+//    }
+//    
+//        else if(month==3){
+//                        [daysOfMonth removeAllObjects];
+//            for(day=1;day<=31;day++){
+//                dayString=[NSString stringWithFormat:@"%d",day];
+//                [daysOfMonth addObject:dayString];
+//            }
+//        }
+//        else if(month==4){
+//                        [daysOfMonth removeAllObjects];
+//            for(day=1;day<=30;day++){
+//                dayString=[NSString stringWithFormat:@"%d",day];
+//                [daysOfMonth addObject:dayString];
+//            }
+//        }
+//        else if(month==5){
+//                        [daysOfMonth removeAllObjects];
+//            for(day=1;day<=31;day++){
+//                dayString=[NSString stringWithFormat:@"%d",day];
+//                [daysOfMonth addObject:dayString];
+//            }
+//        }
+//        else if(month==6){
+//                        [daysOfMonth removeAllObjects];
+//            for(day=1;day<=30;day++){
+//                dayString=[NSString stringWithFormat:@"%d",day];
+//                [daysOfMonth addObject:dayString];
+//            }
+//        }
+//        else if(month==7){
+//                        [daysOfMonth removeAllObjects];
+//            for(day=1;day<=31;day++){
+//                dayString=[NSString stringWithFormat:@"%d",day];
+//                [daysOfMonth addObject:dayString];
+//            }
+//        }
+//        else if(month==8){
+//                        [daysOfMonth removeAllObjects];
+//            for(day=1;day<=31;day++){
+//                dayString=[NSString stringWithFormat:@"%d",day];
+//                [daysOfMonth addObject:dayString];
+//            }
+//        }
+//        else if(month==9){
+//                        [daysOfMonth removeAllObjects];
+//            for(day=1;day<=30;day++){
+//                dayString=[NSString stringWithFormat:@"%d",day];
+//                [daysOfMonth addObject:dayString];
+//            }
+//        }
+//        else if(month==10){
+//                        [daysOfMonth removeAllObjects];
+//            for(day=1;day<=31;day++){
+//                dayString=[NSString stringWithFormat:@"%d",day];
+//                [daysOfMonth addObject:dayString];
+//            }
+//        }
+//        else if(month==11){
+//                        [daysOfMonth removeAllObjects];
+//            for(day=1;day<=30;day++){
+//                dayString=[NSString stringWithFormat:@"%d",day];
+//                [daysOfMonth addObject:dayString];
+//            }
+//        }
+//        else if(month==12){
+//                        [daysOfMonth removeAllObjects];
+//            for(day=1;day<=31;day++){
+//                dayString=[NSString stringWithFormat:@"%d",day];
+//                [daysOfMonth addObject:dayString];
+//            }
+//        }
+//
+//
+//    NSLog(@"%@",daysOfMonth);
+//
+//
+//}
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
@@ -214,6 +215,7 @@
     UIButton *button=sender;
     if(button.tag==90){
         self.labelYear.text=[NSString stringWithFormat:@"%d", _labelYear.text.intValue-1];
+                self.labelDate.text=[NSString stringWithFormat:@"%@ %d %@",self.labelMonth.text,day1,self.labelYear.text];
     } else if(button.tag==91){
          self.labelYear.text=[NSString stringWithFormat:@"%d", _labelYear.text.intValue+1];
     }else if(button.tag==92){
@@ -238,8 +240,10 @@
             [button setEnabled:NO];
         }
     }
-    [self daysOfMonthCall];
+    [self selectDate:button];
+  //  [self daysOfMonthCall];
     [self calculateday];
+    self.labelDate.text=[NSString stringWithFormat:@"%@ %@ %@",self.labelMonth.text,button.titleLabel.text,self.labelYear.text];
     
 }
 
@@ -1373,5 +1377,149 @@
         }
     }
     
+}
+-(void)selectDate:(UIButton *)sender{
+    if(sender.tag==1){
+        [self.but1 setBackgroundColor:[UIColor yellowColor]];
+    }else{
+        [self.but1 setBackgroundColor:[UIColor whiteColor]];
+    }
+    if(sender.tag==2){
+        [self.but2 setBackgroundColor:[UIColor yellowColor]];
+    }else{
+        [self.but2 setBackgroundColor:[UIColor whiteColor]];
+    }if(sender.tag==3){
+        [self.but3 setBackgroundColor:[UIColor yellowColor]];
+    }else{
+        [self.but3 setBackgroundColor:[UIColor whiteColor]];
+    }if(sender.tag==4){
+        [self.but4 setBackgroundColor:[UIColor yellowColor]];
+    }else{
+        [self.but4 setBackgroundColor:[UIColor whiteColor]];
+    }if(sender.tag==5){
+        [self.but5 setBackgroundColor:[UIColor yellowColor]];
+    }else{
+        [self.but5 setBackgroundColor:[UIColor whiteColor]];
+    }if(sender.tag==6){
+        [self.but6 setBackgroundColor:[UIColor yellowColor]];
+    }else{
+        [self.but6 setBackgroundColor:[UIColor whiteColor]];
+    }if(sender.tag==7){
+        [self.but7 setBackgroundColor:[UIColor yellowColor]];
+    }else{
+        [self.but7 setBackgroundColor:[UIColor whiteColor]];
+    }if(sender.tag==8){
+        [self.but8 setBackgroundColor:[UIColor yellowColor]];
+    }else{
+        [self.but8 setBackgroundColor:[UIColor whiteColor]];
+    }if(sender.tag==9){
+        [self.but9 setBackgroundColor:[UIColor yellowColor]];
+    }else{
+        [self.but9 setBackgroundColor:[UIColor whiteColor]];
+    }if(sender.tag==10){
+        [self.but10 setBackgroundColor:[UIColor yellowColor]];
+    }else{
+        [self.but10 setBackgroundColor:[UIColor whiteColor]];
+    }if(sender.tag==11){
+        [self.but11 setBackgroundColor:[UIColor yellowColor]];
+    }else{
+        [self.but11 setBackgroundColor:[UIColor whiteColor]];
+    }if(sender.tag==12){
+        [self.but12 setBackgroundColor:[UIColor yellowColor]];
+    }else{
+        [self.but12 setBackgroundColor:[UIColor whiteColor]];
+    }if(sender.tag==13){
+        [self.but13 setBackgroundColor:[UIColor yellowColor]];
+    }else{
+        [self.but13 setBackgroundColor:[UIColor whiteColor]];
+    }if(sender.tag==14){
+        [self.but14 setBackgroundColor:[UIColor yellowColor]];
+    }else{
+        [self.but14 setBackgroundColor:[UIColor whiteColor]];
+    }if(sender.tag==15){
+        [self.but15 setBackgroundColor:[UIColor yellowColor]];
+    }else{
+        [self.but15 setBackgroundColor:[UIColor whiteColor]];
+    }if(sender.tag==16){
+        [self.but16 setBackgroundColor:[UIColor yellowColor]];
+    }else{
+        [self.but16 setBackgroundColor:[UIColor whiteColor]];
+    }if(sender.tag==17){
+        [self.but17 setBackgroundColor:[UIColor yellowColor]];
+    }else{
+        [self.but17 setBackgroundColor:[UIColor whiteColor]];
+    }if(sender.tag==18){
+        [self.but18 setBackgroundColor:[UIColor yellowColor]];
+    }else{
+        [self.but18 setBackgroundColor:[UIColor whiteColor]];
+    }if(sender.tag==19){
+        [self.but19 setBackgroundColor:[UIColor yellowColor]];
+    }else{
+        [self.but19 setBackgroundColor:[UIColor whiteColor]];
+    }if(sender.tag==20){
+        [self.but20 setBackgroundColor:[UIColor yellowColor]];
+    }else{
+        [self.but20 setBackgroundColor:[UIColor whiteColor]];
+    }if(sender.tag==21){
+        [self.but21 setBackgroundColor:[UIColor yellowColor]];
+    }else{
+        [self.but21 setBackgroundColor:[UIColor whiteColor]];
+    }if(sender.tag==22){
+        [self.but22 setBackgroundColor:[UIColor yellowColor]];
+    }else{
+        [self.but22 setBackgroundColor:[UIColor whiteColor]];
+    }if(sender.tag==23){
+        [self.but23 setBackgroundColor:[UIColor yellowColor]];
+    }else{
+        [self.but23 setBackgroundColor:[UIColor whiteColor]];
+    }if(sender.tag==24){
+        [self.but24 setBackgroundColor:[UIColor yellowColor]];
+    }else{
+        [self.but24 setBackgroundColor:[UIColor whiteColor]];
+    }if(sender.tag==25){
+        [self.but25 setBackgroundColor:[UIColor yellowColor]];
+    }else{
+        [self.but25 setBackgroundColor:[UIColor whiteColor]];
+    }if(sender.tag==26){
+        [self.but26 setBackgroundColor:[UIColor yellowColor]];
+    }else{
+        [self.but26 setBackgroundColor:[UIColor whiteColor]];
+    }if(sender.tag==27){
+        [self.but27 setBackgroundColor:[UIColor yellowColor]];
+    }else{
+        [self.but27 setBackgroundColor:[UIColor whiteColor]];
+    }if(sender.tag==28){
+        [self.but28 setBackgroundColor:[UIColor yellowColor]];
+    }else{
+        [self.but28 setBackgroundColor:[UIColor whiteColor]];
+    }if(sender.tag==29){
+        [self.but29 setBackgroundColor:[UIColor yellowColor]];
+    }else{
+        [self.but29 setBackgroundColor:[UIColor whiteColor]];
+    }if(sender.tag==30){
+        [self.but30 setBackgroundColor:[UIColor yellowColor]];
+    }else{
+        [self.but30 setBackgroundColor:[UIColor whiteColor]];
+    }if(sender.tag==31){
+        [self.but31 setBackgroundColor:[UIColor yellowColor]];
+    }else{
+        [self.but31 setBackgroundColor:[UIColor whiteColor]];
+    }if(sender.tag==32){
+        [self.but32 setBackgroundColor:[UIColor yellowColor]];
+    }else{
+        [self.but32 setBackgroundColor:[UIColor whiteColor]];
+    }if(sender.tag==33){
+        [self.but33 setBackgroundColor:[UIColor yellowColor]];
+    }else{
+        [self.but33 setBackgroundColor:[UIColor whiteColor]];
+    }if(sender.tag==34){
+        [self.but34 setBackgroundColor:[UIColor yellowColor]];
+    }else{
+        [self.but34 setBackgroundColor:[UIColor whiteColor]];
+    }if(sender.tag==35){
+        [self.but35 setBackgroundColor:[UIColor yellowColor]];
+    }else{
+        [self.but35 setBackgroundColor:[UIColor whiteColor]];
+    }
 }
 @end
